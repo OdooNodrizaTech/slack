@@ -6,7 +6,10 @@
     'website': 'https://nodrizatech.com/',
     'category': 'Tools',
     'license': 'AGPL-3',
-    'depends': ['base', 'account', 'slack'],    
+    'depends': ['base', 'account', 'slack'],
+    'data': [
+        'data/slack_data.xml'
+    ],    
     'installable': True,
     'auto_install': False,    
 }

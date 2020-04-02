@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Slack Survey',
+    'name': 'Slack Shipping Expedition',
     'version': '10.0.1.0.0',    
     'author': 'Odoo Nodriza Tech (ONT)',
     'website': 'https://nodrizatech.com/',
     'category': 'Tools',
     'license': 'AGPL-3',
-    'depends': ['base', 'mail', 'survey', 'slack'],
+    'depends': ['base', 'shipping_expedition', 'slack'],
     'data': [
-        'data/slack_data.xml'
+        'views/res_users.xml',
     ],    
     'installable': True,
     'auto_install': False,    

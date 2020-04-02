@@ -5,16 +5,8 @@
             <field name="key">slack_log_channel</field>
             <field name="value">#log_odoo_dev</field>
         </record>
-        <record model="ir.config_parameter" id="slack_log_contabilidad_channel">
-            <field name="key">slack_log_contabilidad_channel</field>
-            <field name="value">#log_odoo_dev</field>
-        </record>
         <record model="ir.config_parameter" id="slack_log_ses_mail_tracking_channel">
             <field name="key">slack_log_ses_mail_tracking_channel</field>
-            <field name="value">#log_odoo_dev</field>
-        </record>
-        <record model="ir.config_parameter" id="slack_log_calidad_channel">
-            <field name="key">slack_log_calidad_channel</field>
             <field name="value">#log_odoo_dev</field>
         </record>                
     </data>

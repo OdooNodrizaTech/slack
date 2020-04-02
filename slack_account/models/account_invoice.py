@@ -50,3 +50,130 @@ class AccountInvoice(models.Model):
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
         
         return res
+        
+    @api.one    
+    def action_send_account_invoice_create_message_slack(self):
+        res = super(AccountInvoice, self).action_send_account_invoice_create_message_slack()
+        
+        web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                                                        
+        attachments = [
+            {                    
+                "title": 'Se ha creado la factura automaticamente',
+                "text": self.number,                        
+                "color": "#36a64f",                                             
+                "fallback": "Ver factura "+str(self.number)+' '+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=account.invoice",                                    
+                "actions": [
+                    {
+                        "type": "button",
+                        "text": "Ver factura "+str(self.number),
+                        "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=account.invoice"
+                    }
+                ],
+                "fields": [                    
+                    {
+                        "title": "Cliente",
+                        "value": self.partner_id.name,
+                        'short': True,
+                    },
+                    {
+                        "title": "Pedido",
+                        "value": self.origin,
+                        'short': True,
+                    }
+                ],                    
+            }
+        ]            
+        
+        slack_message_vals = {
+            'attachments': attachments,
+            'model': 'account.invoice',
+            'res_id': self.id,
+            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_arelux_log_contabilidad_channel'),                                                         
+        }                        
+        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+        
+        return res
+        
+    @api.one    
+    def action_send_account_invoice_out_refund_create_message_slack(self):
+        res = super(AccountInvoice, self).action_send_account_invoice_out_refund_create_message_slack()
+        
+        web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                                                        
+        attachments = [
+            {                    
+                "title": 'Se ha creado la factura rectificativa automaticamente',
+                "text": self.number,                        
+                "color": "#36a64f",                                             
+                "fallback": "Ver factura "+str(self.number)+' '+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=account.invoice",                                    
+                "actions": [
+                    {
+                        "type": "button",
+                        "text": "Ver factura "+str(self.number),
+                        "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=account.invoice"
+                    }
+                ],
+                "fields": [                    
+                    {
+                        "title": "Cliente",
+                        "value": self.partner_id.name,
+                        'short': True,
+                    },
+                    {
+                        "title": "Origen",
+                        "value": self.origin,
+                        'short': True,
+                    }
+                ],                    
+            }
+        ]            
+        
+        slack_message_vals = {
+            'attachments': attachments,
+            'model': 'account.invoice',
+            'res_id': self.id,
+            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_arelux_log_contabilidad_channel'),                                                         
+        }                        
+        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+        
+        return res        
+
+    @api.one    
+    def action_custom_send_mail_slack(self):
+        res = super(AccountInvoice, self).action_custom_send_mail_slack()
+        
+        web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        
+        attachments = [
+            {                    
+                "title": 'Se ha enviado por email la factura automaticamente',
+                "text": self.number,                        
+                "color": "#36a64f",                                             
+                "fallback": "Ver factura "+str(self.number)+' '+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=account.invoice",                                    
+                "actions": [
+                    {
+                        "type": "button",
+                        "text": "Ver factura "+str(self.number),
+                        "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=account.invoice"
+                    }
+                ],
+                "fields": [                    
+                    {
+                        "title": "Cliente",
+                        "value": self.partner_id.name,
+                        'short': True,
+                    }                    
+                ],                    
+            }
+        ]        
+        
+        slack_message_vals = {
+            'attachments': attachments,
+            'model': self._inherit,
+            'res_id': self.id,
+            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_arelux_log_contabilidad_channel'),                                                         
+        }                        
+        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+        
+        return res        

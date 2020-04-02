@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">        
+        <record model="ir.config_parameter" id="slack_log_sms_channel">
+            <field name="key">slack_log_sms_channel</field>
+            <field name="value">#log_odoo_dev</field>
+        </record>        
+    </data>
+</openerp>
