@@ -6,7 +6,7 @@ _logger = logging.getLogger(__name__)
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
-
+    
     @api.one    
     def action_error_create_shipping_expedition_message_slack(self, res):
         res_return = super(StockPicking, self).action_error_create_shipping_expedition_message_slack(res)
