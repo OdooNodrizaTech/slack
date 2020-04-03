@@ -9,8 +9,6 @@ class MailMessage(models.Model):
     
     @api.one
     def generate_auto_starred_slack(self, user_id):
-        res = super(MailMessage, self).generate_auto_starred_slack(user_id)
-        
         if user_id.id>0 and user_id.slack_member_id!=False and user_id.slack_mail_message==True:
             web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             
@@ -40,12 +38,8 @@ class MailMessage(models.Model):
                 }                        
                 slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
         
-        return res
-        
     @api.one
     def generate_notice_message_without_auto_starred_user_slack(self):
-        res = super(MailMessage, self).generate_notice_message_without_auto_starred_user_slack()
-        
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         if self.record_name!=False:                                                        
             attachments = [
@@ -72,5 +66,3 @@ class MailMessage(models.Model):
                 'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_channel'),                                                         
             }                        
             slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
-        
-        return res

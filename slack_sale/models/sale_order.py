@@ -10,8 +10,6 @@ class SaleOrder(models.Model):
     
     @api.one    
     def action_account_invoice_not_create_partner_without_vat(self):
-        res = super(SaleOrder, self).action_account_invoice_not_create_partner_without_vat()
-        
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                                                         
         attachments = [
@@ -49,8 +47,6 @@ class SaleOrder(models.Model):
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_contabilidad_channel'),                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
-        
-        return res
     
     @api.one    
     def action_confirm_create_message_slack(self):        
@@ -106,8 +102,6 @@ class SaleOrder(models.Model):
 
     @api.one    
     def action_custom_send_sms_info_slack(self):
-        res = super(SaleOrder, self).action_custom_send_sms_info_slack()
-        
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         
         options = {
@@ -157,8 +151,6 @@ class SaleOrder(models.Model):
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_channel'),                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
-        
-        return res
         
     @api.multi
     def action_confirm(self):

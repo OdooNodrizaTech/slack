@@ -9,8 +9,6 @@ class ShippingExpedition(models.Model):
 
     @api.one    
     def action_error_update_state_expedition_message_slack(self, res):
-        res_return = super(ShippingExpedition, self).action_error_update_state_expedition_message_slack(res)
-        
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             
         attachments = [
@@ -48,13 +46,9 @@ class ShippingExpedition(models.Model):
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_almacen_channel'),                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
-        
-        return res_return
     
     @api.one    
     def action_incidence_expedition_message_slack(self, res):
-        res_return = super(ShippingExpedition, self).action_incidence_expedition_message_slack(res)
-        
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                         
         attachments = [
@@ -99,13 +93,9 @@ class ShippingExpedition(models.Model):
             'channel': channel                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
-        
-        return res_return
     
     @api.one    
     def action_error_cancell_expedition_message_slack(self, res):
-        res_return = super(ShippingExpedition, self).action_error_cancell_expedition_message_slack(res)
-        
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             
         attachments = [
@@ -142,50 +132,4 @@ class ShippingExpedition(models.Model):
             'res_id': self.id,
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_almacen_channel'),                                                         
         }                        
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
-        
-        return res_return
-        
-    @api.one    
-    def action_custom_send_sms_info_slack(self):
-        res = super(ShippingExpedition, self).action_custom_send_sms_info_slack()
-        
-        web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        
-        attachments = [
-            {                    
-                "title": 'Se ha enviado por SMS la info de la expedicion',
-                "text": self.code,                        
-                "color": "#36a64f",                                             
-                "fallback": "Ver expedicion "+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=shipping.expedition",                                    
-                "actions": [
-                    {
-                        "type": "button",
-                        "text": "Ver expedicion",
-                        "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=shipping.expedition"
-                    }
-                ],
-                "fields": [
-                    {
-                        "title": "Albaran",
-                        "value": self.picking_id.name,
-                        'short': True,
-                    },                    
-                    {
-                        "title": "Transportista",
-                        "value": self.carrier_type.title(),
-                        'short': True,
-                    },                    
-                ],                    
-            }
-        ]        
-        
-        slack_message_vals = {
-            'attachments': attachments,
-            'model': self._inherit,
-            'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_almacen_channel'),                                                         
-        }                        
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
-        
-        return res                                                                    
+        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)                                                                    

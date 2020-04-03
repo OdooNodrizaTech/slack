@@ -8,20 +8,20 @@ class ShippingExpedition(models.Model):
     _inherit = 'shipping.expedition'
 
     @api.one 
-    def action_send_mail_info_real(self):
-        return_item = super(ShippingExpedition, self).action_send_mail_info_real()
-        #action_send_mail_info_expedition_message_slack
-        self.action_send_mail_info_expedition_message_slack()        
+    def action_send_sms_info_real(self):
+        return_item = super(ShippingExpedition, self).action_send_sms_info_real()
+        #action_send_sms_info_expedition_message_slack
+        self.action_send_sms_info_expedition_message_slack()        
         #return
         return return_item
         
     @api.one    
-    def action_send_mail_info_expedition_message_slack(self):
+    def action_send_sms_info_expedition_message_slack(self):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             
         attachments = [
             {                    
-                "title": 'Se ha enviado por email la info de la expedicion',
+                "title": 'Se ha enviado por sms la info de la expedicion',
                 "text": self.code,                        
                 "color": "#36a64f",                                             
                 "fallback": "Ver expedicion "+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=shipping.expedition",                                    

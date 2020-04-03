@@ -9,8 +9,6 @@ class ResPartner(models.Model):
     
     @api.one    
     def action_send_cesce_risk_classification_error_message_slack(self, vals):
-        res = super(ResPartner, self).action_send_cesce_risk_classification_error_message_slack(vals)
-        
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                                                         
         attachments = [
@@ -49,12 +47,8 @@ class ResPartner(models.Model):
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
         
-        return res
-        
     @api.one    
     def action_send_cesce_risk_classification_message_slack(self, vals):
-        res = super(ResPartner, self).action_send_cesce_risk_classification_message_slack(vals)
-        
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                                                         
         attachments = [
@@ -93,12 +87,8 @@ class ResPartner(models.Model):
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
         
-        return res
-        
     @api.one    
     def action_send_cesce_risk_classification_update_message_slack(self, vals):
-        res = super(ResPartner, self).action_send_cesce_risk_classification_message_slack(vals)
-        
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                                                         
         attachments = [
@@ -146,5 +136,3 @@ class ResPartner(models.Model):
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_cesce_channel'),                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
-        
-        return res

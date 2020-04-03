@@ -42,5 +42,5 @@ class MailMail(models.Model):
                 'res_id': self.id,                                                         
             }                        
             slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
-                                                                                                            
+        #return                                                                                                            
         return res

@@ -10,8 +10,6 @@ class CrmLead(models.Model):
     
     @api.one
     def action_leads_create_sendinblue_list_id(self, cr=None, uid=False, context=None):
-        res = super(CrmLead, self).action_leads_create_sendinblue_list_id()
-        
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         slack_log_channel = self.env['ir.config_parameter'].sudo().get_param('slack_log_channel')
         

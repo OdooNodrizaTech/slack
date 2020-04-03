@@ -20,8 +20,6 @@ class AccountInvoice(models.Model):
     
     @api.one    
     def action_custom_send_mail_slack(self):
-        res = super(AccountInvoice, self).action_custom_send_mail_slack()
-        
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         
         attachments = [
@@ -53,6 +51,4 @@ class AccountInvoice(models.Model):
             'res_id': self.id,
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_contabilidad_channel'),                                                         
         }                        
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
-        
-        return res                                
+        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)                                
