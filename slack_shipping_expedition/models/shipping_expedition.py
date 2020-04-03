@@ -45,7 +45,7 @@ class ShippingExpedition(models.Model):
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_arelux_log_almacen_channel'),                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_almacen_channel'),                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
         
@@ -86,7 +86,7 @@ class ShippingExpedition(models.Model):
         ]
         
         #channel
-        channel = self.env['ir.config_parameter'].sudo().get_param('slack_arelux_log_almacen_channel')
+        channel = self.env['ir.config_parameter'].sudo().get_param('slack_log_almacen_channel')
         
         if self.user_id.id>0 and self.user_id.slack_member_id!=False and self.user_id.slack_shipping_expedition_incidence==True:
             channel = self.user_id.slack_member_id                         
@@ -140,51 +140,7 @@ class ShippingExpedition(models.Model):
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_arelux_log_almacen_channel'),                                                         
-        }                        
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
-        
-        return res_return
-        
-    @api.one    
-    def action_send_mail_info_expedition_message_slack(self):
-        res_return = super(ShippingExpedition, self).action_send_mail_info_expedition_message_slack()
-        
-        web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-            
-        attachments = [
-            {                    
-                "title": 'Se ha enviado por email la info de la expedicion',
-                "text": self.code,                        
-                "color": "#36a64f",                                             
-                "fallback": "Ver expedicion "+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=shipping.expedition",                                    
-                "actions": [
-                    {
-                        "type": "button",
-                        "text": "Ver expedicion",
-                        "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=shipping.expedition"
-                    }
-                ],
-                "fields": [
-                    {
-                        "title": "Albaran",
-                        "value": self.picking_id.name,
-                        'short': True,
-                    },                    
-                    {
-                        "title": "Transportista",
-                        "value": self.carrier_type.title(),
-                        'short': True,
-                    },                    
-                ],                    
-            }
-        ]            
-        
-        slack_message_vals = {
-            'attachments': attachments,
-            'model': self._inherit,
-            'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_arelux_log_almacen_channel'),                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_almacen_channel'),                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
         
@@ -228,7 +184,7 @@ class ShippingExpedition(models.Model):
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_arelux_log_almacen_channel'),                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_almacen_channel'),                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
         

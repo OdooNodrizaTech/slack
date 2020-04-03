@@ -46,7 +46,7 @@ class SaleOrder(models.Model):
             'attachments': attachments,
             'model': 'sale.order',
             'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_arelux_log_contabilidad_channel'),                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_contabilidad_channel'),                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
         
@@ -100,7 +100,7 @@ class SaleOrder(models.Model):
             'attachments': attachments,
             'model': 'sale.order',
             'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_arelux_channel_data'),                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_channel_data'),                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
 
@@ -154,7 +154,7 @@ class SaleOrder(models.Model):
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_arelux_log_channel'),                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_channel'),                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
         
@@ -164,7 +164,13 @@ class SaleOrder(models.Model):
     def action_confirm(self):
         return_action_confirm = super(SaleOrder, self).action_confirm()
         if return_action_confirm==True:
-            if self.amount_total>0 and self.claim==False:
-                self.action_confirm_create_message_slack()
+            for obj in self:
+                if obj.amount_total>0:
+                    #Fix claim
+                    if 'claim' in obj:
+                        if obj.claim==False:
+                            obj.action_confirm_create_message_slack()
+                    else:
+                        obj.action_confirm_create_message_slack()
             
         return return_action_confirm
