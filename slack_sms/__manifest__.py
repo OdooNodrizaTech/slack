@@ -6,7 +6,7 @@
     'website': 'https://nodrizatech.com/',
     'category': 'Tools',
     'license': 'AGPL-3',
-    'depends': ['base', 'sms_arelux', 'slack'],
+    'depends': ['base', 'sms', 'slack'],
     'data': [
         'data/slack_data.xml'
     ],    
