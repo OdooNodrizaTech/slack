@@ -10,6 +10,7 @@ nombre | version
 [slack](slack/) | 10.0.1.0.0
 [slack_account](slack_account/) | 10.0.1.0.0
 [slack_account_invoice_auto_send_mail](slack_account_invoice_auto_send_mail/) | 10.0.1.0.0
+[slack_account_invoice_not_paid_auto_send_mail](slack_account_invoice_not_paid_auto_send_mail/) | 10.0.1.0.0
 [slack_arelux](slack_arelux/) | 10.0.1.0.0
 [slack_cesce](slack_cesce/) | 10.0.1.0.0
 [slack_mail](slack_mail/) | 10.0.1.0.0
