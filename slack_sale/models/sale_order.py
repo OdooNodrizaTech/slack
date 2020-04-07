@@ -96,7 +96,7 @@ class SaleOrder(models.Model):
             'attachments': attachments,
             'model': 'sale.order',
             'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_channel_data'),                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_sale_order_confirm'),                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
 
@@ -157,7 +157,7 @@ class SaleOrder(models.Model):
         return_action_confirm = super(SaleOrder, self).action_confirm()
         if return_action_confirm==True:
             for obj in self:
-                if obj.amount_total>0:
+                if obj.amount_total>0:                    
                     #Fix claim
                     if 'claim' in obj:
                         if obj.claim==False:

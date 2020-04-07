@@ -35,5 +35,8 @@ class SlackMessage(models.Model):
             username='Odoo'
         )
         if 'error' in result:
-            _logger.info(result['error'])
+            _logger.info({
+                'channel': channel,
+                'error': result['error'] 
+            })
                                                 
