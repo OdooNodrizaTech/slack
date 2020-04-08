@@ -69,8 +69,8 @@ class ShippingExpedition(models.Model):
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)        
     
-    @api.one    
-    def action_error_update_state_expedition_message_slack(self, res):
+    @api.one        
+    def action_error_update_state_expedition(self, res):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             
         attachments = [
