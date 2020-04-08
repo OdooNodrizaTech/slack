@@ -34,10 +34,7 @@ class ResPartner(models.Model):
             #credit_limit change
             if first_classification_ok==False and first_classification_error==False:
                 if credit_limit_old!=credit_limit:
-                    self.action_send_cesce_risk_classification_update_message_slack({
-                        'fecha_efecto': '',
-                        'fecha_anulacion': ''        
-                    })
+                    self.action_send_cesce_risk_classification_update_message_slack()
         #return
         return return_object
     
@@ -122,9 +119,22 @@ class ResPartner(models.Model):
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
         
     @api.one    
-    def action_send_cesce_risk_classification_update_message_slack(self, vals):
+    def action_send_cesce_risk_classification_update_message_slack(self):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-                                                        
+        #define
+        fecha_efecto = ''
+        fecha_anulacion = ''
+        #cesce_risk_classification_ids
+        cesce_risk_classification_ids = self.env['cesce.risk.classification'].sudo().search(
+            [
+                ('partner_id', '=', self.id)
+            ], order="fecha_efecto desc", limit=1
+        )
+        if len(cesce_risk_classification_ids)>0:
+            cesce_risk_classification_id = cesce_risk_classification_ids[0]
+            fecha_efecto = cesce_risk_classification_id.fecha_efecto
+            fecha_anulacion = cesce_risk_classification_id.fecha_anulacio        
+        #attachments                                                        
         attachments = [
             {                    
                 "title": 'Clasificacion Riesgo Actualizada',
@@ -151,12 +161,12 @@ class ResPartner(models.Model):
                     },
                     {
                         "title": "Fecha efecto",
-                        "value": vals['fecha_efecto'],
+                        "value": fecha_efecto,
                         'short': True,
                     },
                     {
                         "title": "Fecha anulacion",
-                        "value": vals['fecha_anulacion'],
+                        "value": fecha_anulacion,
                         'short': True,
                     }
                 ],                    
