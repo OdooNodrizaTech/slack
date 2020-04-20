@@ -23,9 +23,7 @@ class ResPartner(models.Model):
             first_classification_error = False
             if cesce_risk_state=='classification_error' and cesce_risk_state_old!=cesce_risk_state:
                 first_classification_error = True
-                self.action_send_cesce_risk_classification_error_message_slack({
-                    'error': 'Desconocido'
-                })
+                self.action_send_cesce_risk_classification_error_message_slack()
             #1er classification_ok
             first_classification_ok = False
             if cesce_risk_state=='classification_ok' and cesce_risk_state_old!=cesce_risk_state:
