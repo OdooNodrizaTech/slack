@@ -23,7 +23,7 @@ class ShippingExpedition(models.Model):
         return return_write
         
     @api.one    
-    def action_incidence_expedition_message_slack(self, res):
+    def action_incidence_expedition_message_slack(self):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                         
         attachments = [
