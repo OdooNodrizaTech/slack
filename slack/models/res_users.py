@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import api, fields, models, tools, _
+from odoo import api, fields, models, tools
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -24,7 +24,6 @@ class ResUsers(models.Model):
                     "text": "Texto de prueba",                    
                 }
             ]
-        
             slack_message_vals = {
                 'attachments': attachments,
                 'model': self._inherit,

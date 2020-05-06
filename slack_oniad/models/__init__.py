@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
-import crm_lead
-import oniad_address
+from . import crm_lead
+from . import oniad_address

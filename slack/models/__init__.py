@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
-import slack_message
-import res_users
+from . import slack_message
+from . import res_users

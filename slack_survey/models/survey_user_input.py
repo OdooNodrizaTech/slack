@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-from openerp import _, api, exceptions, fields, models
-from openerp.http import request
-from dateutil.relativedelta import relativedelta
-from datetime import datetime
-
-import pytz
+from odoo import api, exceptions, fields, models
 
 import logging
 _logger = logging.getLogger(__name__)

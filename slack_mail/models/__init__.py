@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
-import mail_mail
-import mail_message
+from . import mail_mail
+from . import mail_message
