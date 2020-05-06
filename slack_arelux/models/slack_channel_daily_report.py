@@ -50,7 +50,6 @@ class SlackChannelDailyReport(models.Model):
                             data_item['text'] += '+'
                             data_item['color'] = '#36a64f'#green
                         else:
-                            data_item['text'] += '-'
                             data_item['color'] = '#ff0000'#red
                         #add and close
                         data_item['text'] += str(self.convert_amount_to_monetary_field(data_item['increment'])) +')'
@@ -106,6 +105,8 @@ class SlackChannelDailyReport(models.Model):
                     increment_percent_item = 0
                     if data_item['data']>0 and data_item['data_previous']>0:
                         increment_percent_item = (float(data_item['data'])/float(data_item['data_previous']))*100
+                    elif data_item['data']==0 and data_item['data_previous']>0:
+                        increment_percent_item = -100                        
                     #format
                     data_item['increment_percent'] = "{0:.2f}".format(increment_percent_item)
                     #operations
@@ -116,7 +117,6 @@ class SlackChannelDailyReport(models.Model):
                             data_item['text'] += '+'
                             data_item['color'] = '#36a64f'#green
                         else:
-                            data_item['text'] += '-'
                             data_item['color'] = '#ff0000'#red
                         #add and close
                         data_item['text'] += str(data_item['increment_percent']) +'%)'
@@ -173,6 +173,8 @@ class SlackChannelDailyReport(models.Model):
                         increment_percent_item = 0
                         if data_item2['data']>0 and data_item2['data_previous']>0:
                             increment_percent_item = (float(data_item2['data'])/float(data_item2['data_previous']))*100
+                        elif data_item2['data']==0 and data_item2['data_previous']>0:
+                            increment_percent_item = -100
                         #format
                         data_item2['increment_percent'] = "{0:.2f}".format(increment_percent_item)
                         #operations
@@ -183,7 +185,6 @@ class SlackChannelDailyReport(models.Model):
                                 data_item2['text'] += '+'
                                 data_item2['color'] = '#36a64f'#green
                             else:
-                                data_item2['text'] += '-'
                                 data_item2['color'] = '#ff0000'#red
                             #add and close
                             data_item2['text'] += str(data_item2['increment_percent']) +'%)'                        
@@ -259,6 +260,8 @@ class SlackChannelDailyReport(models.Model):
                 increment_percent_item = 0
                 if data_item['data']>0 and data_item['data_previous']>0:
                     increment_percent_item = (float(data_item['data'])/float(data_item['data_previous']))*100
+                elif data_item['data']==0 and data_item['data_previous']>0:
+                    increment_percent_item = -100                    
                 #format
                 data_item['increment_percent'] = "{0:.2f}".format(increment_percent_item)
                 #operations
@@ -269,7 +272,6 @@ class SlackChannelDailyReport(models.Model):
                         data_item['text'] += '+'
                         data_item['color'] = '#36a64f'#green
                     else:
-                        data_item['text'] += '-'
                         data_item['color'] = '#ff0000'#red
                     #add and close
                     data_item['text'] += str(data_item['increment_percent']) +'%)'
@@ -284,8 +286,8 @@ class SlackChannelDailyReport(models.Model):
             ('state', '=', 'done'),
             ('ar_qt_activity_type', '=', ar_qt_activity_type),
             ('picking_type_id', '=', picking_type_id),
-            ('management_date', '>=', date_from.strftime("%Y-%m-%d")+' 00:00:00'),
-            ('management_date', '<=', date_to.strftime("%Y-%m-%d")+' 23:59:59')
+            ('date_done', '>=', date_from.strftime("%Y-%m-%d")+' 00:00:00'),
+            ('date_done', '<=', date_to.strftime("%Y-%m-%d")+' 23:59:59')
         ]
         return len(self.env['stock.picking'].search(search_filters))
         
@@ -317,6 +319,8 @@ class SlackChannelDailyReport(models.Model):
                     increment_percent_item = 0
                     if data_item['data']>0 and data_item['data_previous']>0:
                         increment_percent_item = (float(data_item['data'])/float(data_item['data_previous']))*100
+                    elif data_item['data']==0 and data_item['data_previous']>0:
+                        increment_percent_item = -100                        
                     #format
                     data_item['increment_percent'] = "{0:.2f}".format(increment_percent_item)
                     #operations
@@ -327,7 +331,6 @@ class SlackChannelDailyReport(models.Model):
                             data_item['text'] += '+'
                             data_item['color'] = '#36a64f'#green
                         else:
-                            data_item['text'] += '-'
                             data_item['color'] = '#ff0000'#red
                         #add and close
                         data_item['text'] += str(data_item['increment_percent']) +'%)'
