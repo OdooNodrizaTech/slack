@@ -13,6 +13,7 @@ nombre | version
 [slack_account_invoice_not_paid_auto_send_mail](slack_account_invoice_not_paid_auto_send_mail/) | 10.0.1.0.0
 [slack_arelux](slack_arelux/) | 10.0.1.0.0
 [slack_cesce](slack_cesce/) | 10.0.1.0.0
+[slack_external_odoo_base_arelux](slack_external_odoo_base_arelux/) | 10.0.1.0.0
 [slack_mail](slack_mail/) | 10.0.1.0.0
 [slack_odoo_git](slack_odoo_git/) | 10.0.1.0.0
 [slack_oniad](slack_oniad/) | 10.0.1.0.0
