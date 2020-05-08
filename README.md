@@ -14,5 +14,6 @@ nombre | version
 [slack_mail](slack_mail/) | 12.0.1.0.0
 [slack_odoo_git](slack_odoo_git/) | 12.0.1.0.0
 [slack_oniad](slack_oniad/) | 12.0.1.0.0
+[slack_payment](slack_payment/) | 12.0.1.0.0
 [slack_sms](slack_sms/) | 12.0.1.0.0
 [slack_survey](slack_survey/) | 12.0.1.0.0
