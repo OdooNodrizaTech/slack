@@ -117,6 +117,7 @@ class SlackChannelDailyReport(models.Model):
                             data_item['text'] += '+'
                             data_item['color'] = '#36a64f'#green
                         else:
+                            data_item['text'] += '-'
                             data_item['color'] = '#ff0000'#red
                         #add and close
                         data_item['text'] += str(data_item['increment_percent']) +'%)'
@@ -185,6 +186,7 @@ class SlackChannelDailyReport(models.Model):
                                 data_item2['text'] += '+'
                                 data_item2['color'] = '#36a64f'#green
                             else:
+                                data_item['text'] += '-'
                                 data_item2['color'] = '#ff0000'#red
                             #add and close
                             data_item2['text'] += str(data_item2['increment_percent']) +'%)'                        
@@ -272,6 +274,7 @@ class SlackChannelDailyReport(models.Model):
                         data_item['text'] += '+'
                         data_item['color'] = '#36a64f'#green
                     else:
+                        data_item['text'] += '-'
                         data_item['color'] = '#ff0000'#red
                     #add and close
                     data_item['text'] += str(data_item['increment_percent']) +'%)'
@@ -331,6 +334,7 @@ class SlackChannelDailyReport(models.Model):
                             data_item['text'] += '+'
                             data_item['color'] = '#36a64f'#green
                         else:
+                            data_item['text'] += '-'
                             data_item['color'] = '#ff0000'#red
                         #add and close
                         data_item['text'] += str(data_item['increment_percent']) +'%)'
