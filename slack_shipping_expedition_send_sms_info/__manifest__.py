@@ -6,7 +6,7 @@
     'website': 'https://nodrizatech.com/',
     'category': 'Tools',
     'license': 'AGPL-3',
-    'depends': ['base', 'sms_shipping_expedition', 'shipping_expedition_send_sms_info', 'slack'],
+    'depends': ['base', 'aws_sms_shipping_expedition', 'shipping_expedition_send_sms_info', 'slack'],
     'data': [],    
     'installable': True,
     'auto_install': False,    
