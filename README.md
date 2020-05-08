@@ -17,6 +17,7 @@ nombre | version
 [slack_mail](slack_mail/) | 10.0.1.0.0
 [slack_odoo_git](slack_odoo_git/) | 10.0.1.0.0
 [slack_oniad](slack_oniad/) | 10.0.1.0.0
+[slack_payment](slack_payment/) | 10.0.1.0.0
 [slack_sale](slack_sale/) | 10.0.1.0.0
 [slack_sale_orders_generate_invoice](slack_sale_orders_generate_invoice/) | 10.0.1.0.0
 [slack_shipping_expedition](slack_shipping_expedition/) | 10.0.1.0.0
