@@ -19,6 +19,7 @@ nombre | version
 [slack_oniad](slack_oniad/) | 10.0.1.0.0
 [slack_payment](slack_payment/) | 10.0.1.0.0
 [slack_sale](slack_sale/) | 10.0.1.0.0
+[slack_sale_arelux](slack_sale_arelux/) | 10.0.1.0.0
 [slack_sale_orders_generate_invoice](slack_sale_orders_generate_invoice/) | 10.0.1.0.0
 [slack_shipping_expedition](slack_shipping_expedition/) | 10.0.1.0.0
 [slack_shipping_expedition_send_mail_info](slack_shipping_expedition_send_mail_info/) | 10.0.1.0.0
