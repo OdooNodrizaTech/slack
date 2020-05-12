@@ -49,7 +49,7 @@ class SaleOrder(models.Model):
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
     
     @api.one    
-    def action_confirm_create_message_slack(self):        
+    def action_confirm_create_message_slack_pre(self):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         
         options = {
@@ -91,7 +91,11 @@ class SaleOrder(models.Model):
                 ],                    
             }
         ]            
-        
+        return attachments
+    
+    @api.one    
+    def action_confirm_create_message_slack(self):
+        attachments = self.action_confirm_create_message_slack_pre()[0]        
         slack_message_vals = {
             'attachments': attachments,
             'model': 'sale.order',
@@ -99,7 +103,7 @@ class SaleOrder(models.Model):
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_sale_order_confirm'),                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
-
+    
     @api.one    
     def action_custom_send_sms_info_slack(self):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')

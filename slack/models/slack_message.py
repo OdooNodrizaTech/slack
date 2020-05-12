@@ -27,6 +27,7 @@ class SlackMessage(models.Model):
             channel = values['channel']                    
         #SlackClient
         sc = SlackClient(api_token)
+        
         result = sc.api_call(
             "chat.postMessage", 
             channel=channel, 
