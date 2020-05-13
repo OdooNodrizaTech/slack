@@ -13,6 +13,9 @@ class SlackMessage(models.Model):
     def create(self, values):        
         channel = self.env['ir.config_parameter'].sudo().get_param('slack_oniad_log_channel')
         api_token = tools.config.get('slack_bot_user_oauth_access_token')
+        #api_token
+        if 'api_token' in values:
+            api_token = values['api_token']
         #default
         msg = ''
         attachments = []
