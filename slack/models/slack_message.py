@@ -12,7 +12,7 @@ class SlackMessage(models.Model):
     
     @api.model
     def create(self, values):        
-        channel = self.env['ir.config_parameter'].sudo().get_param('slack_oniad_log_channel')
+        channel = self.env['ir.config_parameter'].sudo().get_param('slack_log_channel')
         api_token = tools.config.get('slack_bot_user_oauth_access_token')
         #api_token
         if 'api_token' in values:
