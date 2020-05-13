@@ -1,0 +1,15 @@
+<openerp>
+    <data noupdate="1">
+        <record id="cron_slack_sqs_dead_letter" model="ir.cron">
+            <field name="name">Cron Slack SQS Dead Letter</field>
+            <field name="active" eval="False" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="model" eval="'slack.message'" />
+            <field name="function" eval="'cron_slack_sqs_dead_letter'" />
+            <field name="args" eval="" />
+        </record>
+    </data>
+</openerp>
