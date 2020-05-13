@@ -23,5 +23,6 @@ nombre | version
 [slack_shipping_expedition_send_mail_info](slack_shipping_expedition_send_mail_info/) | 12.0.1.0.0
 [slack_shipping_expedition_send_sms_info](slack_shipping_expedition_send_sms_info/) | 12.0.1.0.0
 [slack_sms](slack_sms/) | 12.0.1.0.0
+[slack_sqs_dead_letter](slack_sqs_dead_letter/) | 12.0.1.0.0
 [slack_stock](slack_stock/) | 12.0.1.0.0
 [slack_survey](slack_survey/) | 12.0.1.0.0
