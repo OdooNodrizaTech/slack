@@ -6,7 +6,7 @@
     'website': 'https://nodrizatech.com/',
     'category': 'Tools',
     'license': 'AGPL-3',
-    'depends': ['base', 'crm', 'slack', 'oniad_root'],
+    'depends': ['base', 'crm', 'account', 'slack', 'oniad_root'],
     'data': [
         'data/ir_cron.xml',
     ],    
