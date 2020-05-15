@@ -19,7 +19,7 @@ class ResUsers(models.Model):
         if self.slack_member_id!=False:                                        
             attachments = [
                 {                    
-                    "title": 'Esta es una prueba del usuario *'+str(self.name.encode('utf-8'))+'*',                        
+                    "title": 'Esta es una prueba del usuario *'+str(self.name)+'*',                        
                     "color": "#36a64f",                                            
                     "text": "Texto de prueba",                    
                 }

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, tools
-#from slackclient import SlackClient
 import slack
 
 import logging
@@ -31,18 +30,18 @@ class SlackMessage(models.Model):
             if 'channel' in values:
                 channel = values['channel']                    
             #SlackClient
-            sc = slack.WebClient(api_token)
-            #sc = SlackClient(api_token)
-            result = sc.api_call(
-                "chat.postMessage", 
+            sc = slack.WebClient(token=api_token)        
+            result = sc.chat_postMessage(
                 channel=channel, 
                 text=msg, 
                 attachments=attachments, 
                 username='Odoo'
-            )
+            )            
             if 'error' in result:
                 _logger.info({
                     'channel': channel,
                     'error': result['error'] 
                 })
+            #return
+            return False                
                                                 
