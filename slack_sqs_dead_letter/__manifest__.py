@@ -6,7 +6,10 @@
     'website': 'https://nodrizatech.com/',
     'category': 'Tools',
     'license': 'AGPL-3',
-    'depends': ['base','slack', 'ir_attachment_s3'],
+    'depends': ['base','slack'],
+    'external_dependencies': {
+        'python3' : ['boto3'],
+    },
     'data': [
         'data/ir_config_parameter.xml',
         'data/ir_cron.xml',
