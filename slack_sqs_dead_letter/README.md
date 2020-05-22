@@ -3,6 +3,12 @@ El módulo se basa en el addon de Slack y consiste en consultar los mensajes de 
 Los nombres de las SQS deberán estar separados por ,
 Lo ideal es que no exista ningún mensaje en esos SQS porque sería un error en el proceso previa que ha provocado que acabe ahí
 
+### odoo.conf
+```
+aws_access_key_id=xxxx
+aws_secret_key_id=xxxxx
+aws_region_name=eu-west-1
+```
 
 ## Parámetros de configuración
 ```
