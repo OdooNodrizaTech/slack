@@ -4,6 +4,7 @@ El módulo contiene el desarrollo que permite realizar toda la integración resp
 ## Parámetros de configuración
 ```
 slack_arelux_report_channel
+slack_arelux_reporte_ranking_semanal
 ``` 
 
 ## Cron
@@ -57,3 +58,13 @@ Todos los datos obtenidos del reporte de ventas se generarán hoy (Miércoles): 
 - [Arelux] Flujos sin asignar (últimos mes): 0 (con colores)
 
 Cuando se especifica "con colores" indica que a cada dato en Slack acompañará un color "rojo" si el dato a empeorado respecto al día anterior, verde si ha mejorado, y sin color si el dato sacado no tiene datos a mostrar.
+
+### Slack Reporte Ranking Semanal
+Frecuencia: 1 vez a la semana
+
+Descripción: Envía por Slack al canal establecido el ranking semanal TODOCESPED con la siguiente información: 
+
+- Presupuestos enviados x comercial (excluyendo los automáticos). Que se contemplen los asignados y enviados (particular)
+- Presupuestos aceptados x comercial (particular)
+- UpSelling x comercial --> presupuestos aceptados en los que hay cepillo, cutter o perfume con precio superior a cero euros. (particular)
+- Ventas totales por comercial ---> Nº de Pedidos + Base Imponible € (particular+profesional)
