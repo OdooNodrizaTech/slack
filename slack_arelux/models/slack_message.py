@@ -206,8 +206,8 @@ class SlackMessage(models.Model):
         _logger.info('cron_odoo_slack_reporte_ranking_semanal')
         #define
         current_date = datetime.today()
-        date_start = current_date + relativedelta(days=-8)
-        date_end = current_date + relativedelta(days=-1)
+        date_start = current_date + relativedelta(days=-7)
+        date_end = current_date
         # Presupuestos enviados por comercial
         user_ids_presupuestos_enviados_por_comercial = self.reporte_ranking_semanal_presupuestos_enviados_por_comercial(date_start, date_end)
         attachments = []
