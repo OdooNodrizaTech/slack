@@ -59,7 +59,7 @@ class SlackMessage(models.Model):
                     user_ids.append(user_id_item)
         #user_ids sort
         if len(user_ids)>0:
-            user_ids.sort(key=lambda x: x.get('total_sale_order'), reverse=True)
+            user_ids.sort(key=lambda x: x.get('total_sale_order_sent'), reverse=True)
         #user_ids
         return user_ids
 
@@ -136,11 +136,11 @@ class SlackMessage(models.Model):
                         'name': str(res_user_id.name)
                     }
                     # total_sale_order
-                    sale_order_ids = self.env['sale.order'].sudo().search([
+                    sale_order_ids_filter = self.env['sale.order'].sudo().search([
                         ('id', 'in', sale_order_ids.ids),
                         ('user_id', '=', res_user_id.id)
                     ])
-                    user_id_item['total_sale_order'] = len(sale_order_ids)
+                    user_id_item['total_sale_order'] = len(sale_order_ids_filter)
                     # append
                     user_ids.append(user_id_item)
         # user_ids sort
