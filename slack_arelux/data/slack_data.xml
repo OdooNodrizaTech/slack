@@ -9,9 +9,5 @@
             <field name="key">slack_arelux_report_channel</field>
             <field name="value">#log_odoo_report_dev</field>
         </record>
-        <record model="ir.config_parameter" id="slack_arelux_reporte_ranking_semanal">
-            <field name="key">slack_arelux_reporte_ranking_semanal</field>
-            <field name="value">#log_odoo_report_dev</field>
-        </record>
     </data>
 </openerp>
