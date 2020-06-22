@@ -10,8 +10,8 @@ from botocore.exceptions import ClientError
 class SlackMessage(models.Model):
     _inherit = 'slack.message'        
     
-    @api.multi    
-    def cron_slack_sqs_dead_letter(self, cr=None, uid=False, context=None):
+    @api.model
+    def cron_slack_sqs_dead_letter(self):
         slack_log_sqs_dead_letter = self.env['ir.config_parameter'].sudo().get_param('slack_log_sqs_dead_letter')
         ses_sqs_urls = self.env['ir.config_parameter'].sudo().get_param('sqs_dead_letter_urls').split(',')
         AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
