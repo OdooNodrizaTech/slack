@@ -18,7 +18,7 @@ class SaleOrder(models.Model):
         else:
             channel = self.env['ir.config_parameter'].sudo().get_param('slack_sale_order_confirm_arelux')
             api_token = tools.config.get('slack_bot_user_oauth_access_token_arelux')         
-        #vals                    
+        #vals
         slack_message_vals = {
             'attachments': attachments,
             'model': 'sale.order',
