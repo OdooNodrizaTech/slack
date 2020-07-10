@@ -11,8 +11,8 @@ class SaleOrder(models.Model):
     @api.one    
     def action_confirm_create_message_slack(self):
         attachments = self.action_confirm_create_message_slack_pre()[0]
-        #channel        
-        if self.ar_qt_activity_type=='todocesped':
+        #channel
+        if self.ar_qt_activity_type in ['todocesped','evert']:
             channel = self.env['ir.config_parameter'].sudo().get_param('slack_sale_order_confirm_todocesped')
             api_token = tools.config.get('slack_bot_user_oauth_access_token_todocesped')
         else:
