@@ -49,6 +49,6 @@ class SlackMessage(models.Model):
                         'error': result['error']
                     })
             except:
-                _logger.debug('Error Slack')
+                _logger.debug('Slack Error')
             #return
             return False
