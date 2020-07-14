@@ -1,6 +1,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 
 
 class AccountInvoice(models.Model):
@@ -14,25 +14,25 @@ class AccountInvoice(models.Model):
                                                                         
         attachments = [
             {
-                "title": "Invoice has been created automatically",
+                "title": _("Invoice has been created automatically"),
                 "text": self.number,
-                "fallback": "View invoice "+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=account.invoice",
+                "fallback": _("View invoice ")+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=account.invoice",
                 "color": "#36a64f",
                 "actions": [
                     {
                         "type": "button",
-                        "text": "View invoice",
+                        "text": _("View invoice"),
                         "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=account.invoice"
                     }
                 ],
                 "fields": [                    
                     {
-                        "title": "Customer",
+                        "title": _("Customer"),
                         "value": self.partner_id.name,
                         'short': True,
                     },
                     {
-                        "title": "Amount",
+                        "title": _("Amount"),
                         "value": str(self.amount_total)+' '+self.currency_id.symbol,
                         'short': True,
                     }
