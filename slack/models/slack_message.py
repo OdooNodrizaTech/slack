@@ -1,10 +1,14 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import api, fields, models, tools
-import slack
 
 import logging
+from odoo import api, models, fields, tools
 _logger = logging.getLogger(__name__)
+
+try:
+    import slack
+except (ImportError, IOError) as err:
+    _logger.debug(err)
+
 
 class SlackMessage(models.Model):
     _name = 'slack.message'
@@ -39,10 +43,9 @@ class SlackMessage(models.Model):
                 username='Odoo'
             )            
             if 'error' in result:
-                _logger.info({
+                _logger.debug({
                     'channel': channel,
                     'error': result['error'] 
                 })
             #return
-            return False                
-                                                
+            return False

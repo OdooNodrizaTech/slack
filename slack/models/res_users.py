@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import api, fields, models, tools
 
-import logging
-_logger = logging.getLogger(__name__)
+from odoo import api, models, fields
+
 
 class ResUsers(models.Model):
     _inherit = 'res.users'
@@ -12,7 +10,7 @@ class ResUsers(models.Model):
         string='Slack Memeber Id'
     )
     slack_mail_message = fields.Boolean( 
-        string='Recibir mensajes de email'
+        string='Receive email messages'
     )
     
     @api.multi
@@ -20,9 +18,9 @@ class ResUsers(models.Model):
         if self.slack_member_id!=False:                                        
             attachments = [
                 {                    
-                    "title": 'Esta es una prueba del usuario *'+str(self.name)+'*',                        
+                    "title": "This is a user test *%s*" %(self.name),
                     "color": "#36a64f",                                            
-                    "text": "Texto de prueba",                    
+                    "text": "Test message",
                 }
             ]
             slack_message_vals = {
