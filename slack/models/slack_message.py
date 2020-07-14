@@ -35,17 +35,20 @@ class SlackMessage(models.Model):
             if 'channel' in values:
                 channel = values['channel']                    
             #SlackClient
-            sc = slack.WebClient(token=api_token)        
-            result = sc.chat_postMessage(
-                channel=channel, 
-                text=msg, 
-                attachments=attachments, 
-                username='Odoo'
-            )            
-            if 'error' in result:
-                _logger.debug({
-                    'channel': channel,
-                    'error': result['error'] 
-                })
+            try:
+                sc = slack.WebClient(token=api_token)
+                result = sc.chat_postMessage(
+                    channel=channel,
+                    text=msg,
+                    attachments=attachments,
+                    username='Odoo'
+                )
+                if 'error' in result:
+                    _logger.debug({
+                        'channel': channel,
+                        'error': result['error']
+                    })
+            except:
+                _logger.debug('Error Slack')
             #return
             return False
