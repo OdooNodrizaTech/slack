@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import fields, models, api
 
-import logging
-_logger = logging.getLogger(__name__)
+from odoo import api, models, fields
+
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
@@ -16,25 +14,25 @@ class AccountInvoice(models.Model):
                                                                         
         attachments = [
             {
-                "title": 'Se ha creado la factura de OniAd automaticamente',
+                "title": "Invoice has been created automatically",
                 "text": self.number,
-                "fallback": "Ver factura "+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=account.invoice",
+                "fallback": "View invoice "+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=account.invoice",
                 "color": "#36a64f",
                 "actions": [
                     {
                         "type": "button",
-                        "text": "Ver factura",
+                        "text": "View invoice",
                         "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=account.invoice"
                     }
                 ],
                 "fields": [                    
                     {
-                        "title": "Cliente",
+                        "title": "Customer",
                         "value": self.partner_id.name,
                         'short': True,
                     },
                     {
-                        "title": "Importe",
+                        "title": "Amount",
                         "value": str(self.amount_total)+' '+self.currency_id.symbol,
                         'short': True,
                     }
