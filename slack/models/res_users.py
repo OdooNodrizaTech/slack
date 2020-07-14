@@ -1,6 +1,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 
 
 class ResUsers(models.Model):
@@ -18,9 +18,9 @@ class ResUsers(models.Model):
         if self.slack_member_id!=False:                                        
             attachments = [
                 {                    
-                    "title": "This is a user test *%s*" %(self.name),
+                    "title": _("This is a user test *%s*") %(self.name),
                     "color": "#36a64f",                                            
-                    "text": "Test message",
+                    "text": _("Test message"),
                 }
             ]
             slack_message_vals = {
