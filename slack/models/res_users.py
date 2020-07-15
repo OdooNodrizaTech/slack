@@ -15,10 +15,10 @@ class ResUsers(models.Model):
     
     @api.multi
     def action_test_slack(self):
-        if self.slack_member_id!=False:                                        
+        if self.slack_member_id != False:
             attachments = [
                 {                    
-                    "title": _("This is a user test *%s*") %(self.name),
+                    "title": _("This is a user test *%s*") % self.name ,
                     "color": "#36a64f",                                            
                     "text": _("Test message"),
                 }
@@ -29,4 +29,4 @@ class ResUsers(models.Model):
                 'res_id': self.id,            
                 'channel': self.slack_member_id                                                          
             }                        
-            slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)    
+            self.env['slack.message'].sudo().create(slack_message_vals)

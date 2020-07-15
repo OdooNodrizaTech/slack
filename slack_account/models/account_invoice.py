@@ -46,6 +46,6 @@ class AccountInvoice(models.Model):
             'res_id': self.id,
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_contabilidad_channel'),                                                         
         }                        
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+        self.env['slack.message'].sudo().create(slack_message_vals)
         
         return res            
