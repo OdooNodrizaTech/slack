@@ -4,6 +4,10 @@
         <record model="ir.config_parameter" id="slack_sale_order_confirm">
             <field name="key">slack_sale_order_confirm</field>
             <field name="value">#log_odoo_dev</field>
-        </record>                
+        </record>
+        <record model="ir.config_parameter" id="slack_sale_order_confirm_with_claim">
+            <field name="key">slack_sale_order_confirm_with_claim</field>
+            <field name="value">#log_odoo_dev</field>
+        </record>
     </data>
 </odoo>

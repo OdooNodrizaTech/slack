@@ -103,6 +103,17 @@ class SaleOrder(models.Model):
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_sale_order_confirm'),                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+
+    @api.one
+    def action_confirm_with_claim_create_message_slack(self):
+        attachments = self.action_confirm_create_message_slack_pre()[0]
+        slack_message_vals = {
+            'attachments': attachments,
+            'model': 'sale.order',
+            'res_id': self.id,
+            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_sale_order_confirm_with_claim'),
+        }
+        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
     
     @api.one    
     def action_custom_send_sms_info_slack(self):
@@ -155,18 +166,21 @@ class SaleOrder(models.Model):
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_channel'),                                                         
         }                        
         slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
-        
+
     @api.multi
     def action_confirm(self):
         return_action_confirm = super(SaleOrder, self).action_confirm()
-        if return_action_confirm==True:
+        if return_action_confirm == True:
             for obj in self:
-                if obj.amount_total>0:                    
-                    #Fix claim
-                    if 'claim' in obj:
-                        if obj.claim==False:
-                            obj.action_confirm_create_message_slack()
+                # claim (if exists)
+                if 'claim' in obj:
+                    if obj.claim == True:
+                        obj.action_confirm_with_claim_create_message_slack()
                     else:
+                        if obj.amount_total > 0:
+                            obj.action_confirm_create_message_slack()
+                else:
+                    if obj.amount_total > 0:
                         obj.action_confirm_create_message_slack()
-            
+        # return
         return return_action_confirm
