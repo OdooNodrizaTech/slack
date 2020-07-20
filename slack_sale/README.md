@@ -6,4 +6,5 @@ Implementa funciones sobre el addon slack y sale
 ## Parámetros de configuración
 ```
 slack_sale_order_confirm
+slack_sale_order_confirm_with_claim
 ``` 
