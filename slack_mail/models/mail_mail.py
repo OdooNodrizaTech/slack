@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import api, fields, models, tools
 
-import logging
-_logger = logging.getLogger(__name__)
+from odoo import api, models, tools, _
+
 
 class MailMail(models.Model):
     _inherit = 'mail.mail'
@@ -11,22 +9,22 @@ class MailMail(models.Model):
     @api.multi
     def _postprocess_sent_message(self, success_pids, failure_reason=False, failure_type=None):
         res = super(MailMail, self)._postprocess_sent_message(success_pids, failure_reason, failure_type)
-        if failure_reason==True:
+        if failure_reason:
             for item in self:
-                if item.state=='exception':
+                if item.state == 'exception':
                     attachments = [
                         {                    
-                            "title": 'Se ha producido un error al enviar el email',
+                            "title": _('An error occurred while sending the email'),
                             "text": item.subject,                         
                             "color": "#ff0000",
                             "fields": [                    
                                 {
-                                    "title": "Razon del fallo",
+                                    "title": _("Failure _reason"),
                                     "value": item.failure_reason,
                                     'short': True,
                                 },
                                 {
-                                    "title": "Remitente",
+                                    "title": _("Email from"),
                                     "value": item.email_from,
                                     'short': True,
                                 },
@@ -38,12 +36,11 @@ class MailMail(models.Model):
                             ],                                                                                    
                         }
                     ]
-                    
-                    slack_message_vals = {
+                    vals = {
                         'attachments': attachments,
                         'model': self._inherit,
                         'res_id': item.id,                                                         
                     }                        
-                    slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
-        #return                                                                                                            
+                    self.env['slack.message'].sudo().create(vals)
+        # return
         return res    

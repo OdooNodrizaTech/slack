@@ -1,48 +1,54 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import api, fields, models
 
-import logging
-_logger = logging.getLogger(__name__)
+from odoo import api, models, _
+
 
 class MailMessage(models.Model):
     _inherit = 'mail.message'
     
     @api.one
     def generate_auto_starred_slack(self, user_id):
-        if user_id.id>0 and user_id.slack_member_id!=False and user_id.slack_mail_message==True:
+        if user_id and user_id.slack_member_id and user_id.slack_mail_message:
             web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             
-            if self.record_name!=False:
+            if self.record_name:
                 attachments = [
                     {                    
-                        "title": 'Nuevo mensaje',
+                        "title": _('New message'),
                         "text": str(self.record_name.encode('utf-8')),                        
                         "color": "#36a64f",                                            
-                        "footer": str(self.author_id.name.encode('utf-8')), 
-                        "fallback": "Ver mensaje "+str(self.record_name.encode('utf-8'))+' '+str(web_base_url)+"/web?#id="+str(self.res_id)+"&view_type=form&model="+str(self.model),                                    
+                        "footer": str(self.author_id.name.encode('utf-8')),
+                        "fallback": _("View message %s  %s/web?#id=%s&view_type=form&model=%s") % (
+                            self.record_name.encode('utf-8'),
+                            web_base_url,
+                            self.res_id,
+                            self.model
+                        ),
                         "actions": [
                             {
                                 "type": "button",
-                                "text": "Ver mensaje "+str(self.record_name.encode('utf-8')),
-                                "url": str(web_base_url)+"/web?#id="+str(self.res_id)+"&view_type=form&model="+str(self.model)
+                                "text": _("View message %s") % self.record_name.encode('utf-8'),
+                                "url": "%s/web?#id=%s&view_type=form&model=%s" % (
+                                    web_base_url,
+                                    self.res_id,
+                                    self.model
+                                )
                             }
                         ]                    
                     }
-                ]                            
-                
-                slack_message_vals = {
+                ]
+                vals = {
                     'attachments': attachments,
                     'model': self._inherit,
                     'res_id': self.id,
                     'channel': user_id.slack_member_id                                                          
                 }                        
-                slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+                self.env['slack.message'].sudo().create(vals)
         
     @api.one
     def generate_notice_message_without_auto_starred_user_slack(self):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        if self.record_name!=False:                                                        
+        if self.record_name:
             attachments = [
                 {                    
                     "title": 'Nuevo mensaje (Sin aviso a ningun comercial)',
@@ -58,12 +64,11 @@ class MailMessage(models.Model):
                         }
                     ]                    
                 }
-            ]            
-            
-            slack_message_vals = {
+            ]
+            vals = {
                 'attachments': attachments,
                 'model': self._inherit,
                 'res_id': self.id,
                 'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_channel'),                                                         
             }                        
-            slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+            self.env['slack.message'].sudo().create(vals)

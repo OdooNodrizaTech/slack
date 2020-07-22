@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import api, fields, models, tools
 
-import logging
-_logger = logging.getLogger(__name__)
+from odoo import fields, models
+
 
 class ResUsers(models.Model):
     _inherit = 'res.users'
     
     slack_shipping_expedition_incidence = fields.Boolean( 
-        string='Recibir incidencias de expediciones'
+        string='Receive incidents of expeditions'
     )

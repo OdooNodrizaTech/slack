@@ -1,26 +1,24 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import fields, models, api
 
-import logging
-_logger = logging.getLogger(__name__)
+from odoo import models, api, _
+
 
 class ShippingExpedition(models.Model):
     _inherit = 'shipping.expedition'
     
     @api.one
     def write(self, vals):
-        #state_old
+        # state_old
         state_old = None
         if 'state' in vals:
             state_old = self.state
-        #write 
+        # write
         return_write = super(ShippingExpedition, self).write(vals)                        
-        #operations
+        # operations
         if 'state' in vals:
-            if self.state=='incidence' and state_old!=self.state:
+            if self.state == 'incidence' and state_old != self.state:
                 self.action_incidence_expedition_message_slack() 
-        #return
+        # return
         return return_write
         
     @api.one    
@@ -29,25 +27,25 @@ class ShippingExpedition(models.Model):
                         
         attachments = [
             {                    
-                "title": 'Incidencia en la expedicion',
+                "title": _('Incidence in expedition'),
                 "text": self.observations,                        
-                "color": "#ff0000",                                             
-                "fallback": "Ver expedicion "+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=shipping.expedition",                                    
+                "color": "#ff0000",
+                "fallback": "View expedition %s/web?#id=%s&view_type=form&model=shipping.expedition" % (web_base_url, self.id),
                 "actions": [
                     {
                         "type": "button",
-                        "text": "Ver expedicion",
-                        "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=shipping.expedition"
+                        "text": _("View expedition"),
+                        "url": "%s/web?#id=%s&view_type=form&model=shipping.expedition" % (web_base_url, self.id)
                     }
                 ],
                 "fields": [
                     {
-                        "title": "Expedicion",
+                        "title": _("Expedition"),
                         "value": self.code,
                         'short': True,
                     },                    
                     {
-                        "title": "Transportista",
+                        "title": _("Carrier"),
                         "value": self.carrier_type.title(),
                         'short': True,
                     },                    
@@ -58,17 +56,17 @@ class ShippingExpedition(models.Model):
         #channel
         channel = self.env['ir.config_parameter'].sudo().get_param('slack_log_almacen_channel')
         
-        if self.user_id.id>0 and self.user_id.slack_member_id!=False and self.user_id.slack_shipping_expedition_incidence==True:
+        if self.user_id and self.user_id.slack_member_id and self.user_id.slack_shipping_expedition_incidence:
             channel = self.user_id.slack_member_id                         
         
-        slack_message_vals = {
+        vals = {
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
             'as_user': True,
             'channel': channel                                                         
         }                        
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)        
+        self.env['slack.message'].sudo().create(vals)
     
     @api.one        
     def action_error_update_state_expedition(self, res):
@@ -101,11 +99,10 @@ class ShippingExpedition(models.Model):
                 ],                    
             }
         ]
-        
-        slack_message_vals = {
+        vals = {
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_almacen_channel'),                                                         
         }                        
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)                                                                    
+        self.env['slack.message'].sudo().create(vals)

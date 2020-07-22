@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-import logging
-_logger = logging.getLogger(__name__)
 
-from odoo import api, models, fields
+from odoo import api, models, _
+
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'    
@@ -13,40 +11,43 @@ class SaleOrder(models.Model):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
                                                         
         attachments = [
-            {                    
-                "title": 'No se ha podido crear la factura del pedido '+str(self.name)+' porque no hay CIF definido para el cliente',
+            {
+                "title": _('The invoice for the order %s could not be created because there is no CIF defined for the customer') % self.name,
                 "text": self.name,                        
-                "color": "#ff0000",                                             
-                "fallback": "Ver pedido de venta "+str(self.name)+' '+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=sale.order",                                    
+                "color": "#ff0000",
+                "fallback": _("View sale order %s %s/web?#id=%s&view_type=form&model=sale.order") % (
+                    self.name,
+                    web_base_url,
+                    self.id
+                ),
                 "actions": [
                     {
                         "type": "button",
-                        "text": "Ver pedido de venta "+str(self.name),
-                        "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=sale.order"
+                        "text": _("View sale order %s") % self.name,
+                        "url": "%s/web?#id=%s&view_type=form&model=sale.order" % (web_base_url, self.id)
                     }
                 ],
                 "fields": [                    
                     {
-                        "title": "Comercial",
-                        "value": self.partner_invoice_id.name,
+                        "title": _("User"),
+                        "value": self.user_id.name,
                         'short': True,
                     },
                     {
-                        "title": "Direccion de facturacion",
+                        "title": _("Address invoice"),
                         "value": self.partner_invoice_id.name,
                         'short': True,
                     }
                 ],                    
             }
-        ]            
-        
-        slack_message_vals = {
+        ]
+        vals = {
             'attachments': attachments,
             'model': 'sale.order',
             'res_id': self.id,
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_contabilidad_channel'),                                                         
         }                        
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+        self.env['slack.message'].sudo().create(vals)
     
     @api.one    
     def action_confirm_create_message_slack_pre(self):
@@ -61,30 +62,34 @@ class SaleOrder(models.Model):
                                                                 
         attachments = [
             {                    
-                "title": 'Venta confirmada',
+                "title": _('Sale order confirm'),
                 "text": self.name,                        
-                "color": "#36a64f",                                             
-                "fallback": "Ver pedido de venta "+str(self.name)+' '+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=sale.order",                                    
+                "color": "#36a64f",
+                "fallback": _("View sale order %s %s/web?#id=%s&view_type=form&model=sale.order") % (
+                    self.name,
+                    web_base_url,
+                    self.id
+                ),
                 "actions": [
                     {
                         "type": "button",
-                        "text": "Ver pedido de venta "+str(self.name),
-                        "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=sale.order"
+                        "text": _("View sale order %s") % self.name,
+                        "url": "%s/web?#id=%s&view_type=form&model=sale.order" % (web_base_url, self.id)
                     }
                 ],
                 "fields": [                    
                     {
-                        "title": "Comercial",
+                        "title": _("User"),
                         "value": self.user_id.partner_id.name,
                         'short': True,
                     },
                     {
-                        "title": "Cliente",
+                        "title": _("Customer"),
                         "value": self.partner_id.name,
                         'short': True,
                     },
                     {
-                        "title": "Base imponible",
+                        "title": _("Amount untaxed"),
                         "value": amount_untaxed_monetary,
                         'short': True,
                     }
@@ -95,25 +100,23 @@ class SaleOrder(models.Model):
     
     @api.one    
     def action_confirm_create_message_slack(self):
-        attachments = self.action_confirm_create_message_slack_pre()[0]        
-        slack_message_vals = {
-            'attachments': attachments,
+        vals = {
+            'attachments': self.action_confirm_create_message_slack_pre()[0],
             'model': 'sale.order',
             'res_id': self.id,
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_sale_order_confirm'),                                                         
         }                        
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+        self.env['slack.message'].sudo().create(vals)
 
     @api.one
     def action_confirm_with_claim_create_message_slack(self):
-        attachments = self.action_confirm_create_message_slack_pre()[0]
-        slack_message_vals = {
-            'attachments': attachments,
+        vals = {
+            'attachments': self.action_confirm_create_message_slack_pre()[0],
             'model': 'sale.order',
             'res_id': self.id,
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_sale_order_confirm_with_claim'),
         }
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+        self.env['slack.message'].sudo().create(vals)
     
     @api.one    
     def action_custom_send_sms_info_slack(self):
@@ -128,53 +131,52 @@ class SaleOrder(models.Model):
         
         attachments = [
             {                    
-                "title": 'Se ha enviado por SMS la info del presupuesto',
+                "title": _('The budget info has been sent by SMS'),
                 "text": self.name,                        
-                "color": "#36a64f",                                             
-                "fallback": "Ver presupuesto "+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=sale.order",                                    
+                "color": "#36a64f",
+                "fallback": "View sale order %s/web?#id=%s&view_type=form&model=sale.order" % (web_base_url, self.id),
                 "actions": [
                     {
                         "type": "button",
-                        "text": "Ver presupuesto",
-                        "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=sale.order"
+                        "text": _("View sale order"),
+                        "url": "%s/web?#id=%s&view_type=form&model=sale.order" % (web_base_url, self.id)
                     }
                 ],
                 "fields": [                    
                     {
-                        "title": "Comercial",
+                        "title": _("User"),
                         "value": self.user_id.partner_id.name,
                         'short': True,
                     },
                     {
-                        "title": "Cliente",
+                        "title": _("Customer"),
                         "value": self.partner_id.name,
                         'short': True,
                     },
                     {
-                        "title": "Base imponible",
+                        "title": _("Amount untaxed"),
                         "value": amount_untaxed_monetary,
                         'short': True,
                     }
                 ],                    
             }
-        ]        
-        
-        slack_message_vals = {
+        ]
+        vals = {
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_channel'),                                                         
         }                        
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+        self.env['slack.message'].sudo().create(vals)
 
     @api.multi
     def action_confirm(self):
         return_action_confirm = super(SaleOrder, self).action_confirm()
-        if return_action_confirm == True:
+        if return_action_confirm:
             for obj in self:
                 # claim (if exists)
                 if 'claim' in obj:
-                    if obj.claim == True:
+                    if obj.claim:
                         obj.action_confirm_with_claim_create_message_slack()
                     else:
                         if obj.amount_total > 0:

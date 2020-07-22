@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import models, fields, api, tools
 
-import logging
-_logger = logging.getLogger(__name__)
+from odoo import models, api, tools, _
+
 
 class PaymentTransaction(models.Model):
     _inherit = 'payment.transaction'
@@ -12,29 +10,29 @@ class PaymentTransaction(models.Model):
     def action_payment_transaction_done_error(self, error):
         attachments = [
             {                    
-                "title": 'Incidencia en Transaccion',
+                "title": _('Incidence in payment transaction'),
                 "text": str(error['error']),                        
                 "color": "#ff0000",                
                 "fields": [
                     {
-                        "title": "Referencia",
+                        "title": _("Reference"),
                         "value": str(error['reference']),
                         'short': True,
                     },                    
                     {
-                        "title": "Entidad",
+                        "title": _("Acquirer"),
                         "value": str(error['acquirer_id_name']),
                         'short': True,
                     },                    
                 ],                    
             }
-        ]        
-        #slack_message_vals
-        slack_message_vals = {
+        ]
+        # vals
+        vals = {
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
             'as_user': True,
             'channel': str(self.env['ir.config_parameter'].sudo().get_param('slack_log_channel'))                                                         
         }                        
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)
+        self.env['slack.message'].sudo().create(vals)

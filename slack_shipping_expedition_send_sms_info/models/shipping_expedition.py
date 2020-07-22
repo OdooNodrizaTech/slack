@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import fields, models, api
 
-import logging
-_logger = logging.getLogger(__name__)
+from odoo import models, api, _
+
 
 class ShippingExpedition(models.Model):
     _inherit = 'shipping.expedition'
@@ -11,9 +9,9 @@ class ShippingExpedition(models.Model):
     @api.one 
     def action_send_sms_info_real(self):
         return_item = super(ShippingExpedition, self).action_send_sms_info_real()
-        #action_send_sms_info_expedition_message_slack
+        # action_send_sms_info_expedition_message_slack
         self.action_send_sms_info_expedition_message_slack()        
-        #return
+        # return
         return return_item
         
     @api.one    
@@ -22,36 +20,35 @@ class ShippingExpedition(models.Model):
             
         attachments = [
             {                    
-                "title": 'Se ha enviado por sms la info de la expedicion',
+                "title": _('The information of the expedition has been sent by sms'),
                 "text": self.code,                        
-                "color": "#36a64f",                                             
-                "fallback": "Ver expedicion "+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=shipping.expedition",                                    
+                "color": "#36a64f",
+                "fallback": "View expedition %s/web?#id=%s&view_type=form&model=shipping.expedition" % (web_base_url, self.id),
                 "actions": [
                     {
                         "type": "button",
-                        "text": "Ver expedicion",
-                        "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=shipping.expedition"
+                        "text": _("View expedition"),
+                        "url": "%s/web?#id=%s&view_type=form&model=shipping.expedition" % (web_base_url, self.id)
                     }
                 ],
                 "fields": [
                     {
-                        "title": "Albaran",
+                        "title": _("Picking"),
                         "value": self.picking_id.name,
                         'short': True,
                     },                    
                     {
-                        "title": "Transportista",
+                        "title": _("Carrier"),
                         "value": self.carrier_type.title(),
                         'short': True,
                     },                    
                 ],                    
             }
-        ]            
-        
-        slack_message_vals = {
+        ]
+        vals = {
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
             'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_almacen_channel'),                                                         
         }                        
-        slack_message_obj = self.env['slack.message'].sudo().create(slack_message_vals)                                                                            
+        self.env['slack.message'].sudo().create(vals)
