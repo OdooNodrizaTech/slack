@@ -1,0 +1,50 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* slack_shipping_expedition_send_mail_info
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0-20200601\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-07-22 12:16+0000\n"
+"PO-Revision-Date: 2020-07-22 12:16+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: slack_shipping_expedition_send_mail_info
+#: code:addons/slack_shipping_expedition_send_mail_info/models/shipping_expedition.py:41
+#: code:addonsOdooNodrizaTech/slack/12.0/slack_shipping_expedition_send_mail_info/models/shipping_expedition.py:41
+#, python-format
+msgid "Carrier"
+msgstr ""
+
+#. module: slack_shipping_expedition_send_mail_info
+#: code:addons/slack_shipping_expedition_send_mail_info/models/shipping_expedition.py:36
+#: code:addonsOdooNodrizaTech/slack/12.0/slack_shipping_expedition_send_mail_info/models/shipping_expedition.py:36
+#, python-format
+msgid "Picking"
+msgstr ""
+
+#. module: slack_shipping_expedition_send_mail_info
+#: model:ir.model,name:slack_shipping_expedition_send_mail_info.model_shipping_expedition
+msgid "Shipping Expedicion"
+msgstr ""
+
+#. module: slack_shipping_expedition_send_mail_info
+#: code:addons/slack_shipping_expedition_send_mail_info/models/shipping_expedition.py:23
+#: code:addonsOdooNodrizaTech/slack/12.0/slack_shipping_expedition_send_mail_info/models/shipping_expedition.py:23
+#, python-format
+msgid "The expedition info has been sent by email"
+msgstr ""
+
+#. module: slack_shipping_expedition_send_mail_info
+#: code:addons/slack_shipping_expedition_send_mail_info/models/shipping_expedition.py:30
+#: code:addonsOdooNodrizaTech/slack/12.0/slack_shipping_expedition_send_mail_info/models/shipping_expedition.py:30
+#, python-format
+msgid "View expedition"
+msgstr ""
+
