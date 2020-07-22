@@ -1,0 +1,72 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* slack_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0-20200601\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-07-22 12:20+0000\n"
+"PO-Revision-Date: 2020-07-22 12:20+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: slack_stock
+#: code:addons/slack_stock/models/stock_picking.py:35
+#: code:addons/slack_stock/models/stock_picking.py:79
+#: code:addonsOdooNodrizaTech/slack/12.0/slack_stock/models/stock_picking.py:35
+#: code:addonsOdooNodrizaTech/slack/12.0/slack_stock/models/stock_picking.py:79
+#, python-format
+msgid "Carrier"
+msgstr ""
+
+#. module: slack_stock
+#: code:addons/slack_stock/models/stock_picking.py:17
+#: code:addonsOdooNodrizaTech/slack/12.0/slack_stock/models/stock_picking.py:17
+#, python-format
+msgid "Error creating the expedition"
+msgstr ""
+
+#. module: slack_stock
+#: code:addons/slack_stock/models/stock_picking.py:60
+#: code:addonsOdooNodrizaTech/slack/12.0/slack_stock/models/stock_picking.py:60
+#, python-format
+msgid "Error update expedition"
+msgstr "Error al actualizar la expedición"
+
+#. module: slack_stock
+#: code:addons/slack_stock/models/stock_picking.py:30
+#: code:addons/slack_stock/models/stock_picking.py:74
+#: code:addonsOdooNodrizaTech/slack/12.0/slack_stock/models/stock_picking.py:30
+#: code:addonsOdooNodrizaTech/slack/12.0/slack_stock/models/stock_picking.py:74
+#, python-format
+msgid "Picking"
+msgstr ""
+
+#. module: slack_stock
+#: model:ir.model,name:slack_stock.model_stock_picking
+msgid "Transfer"
+msgstr "Albarán"
+
+#. module: slack_stock
+#: code:addons/slack_stock/models/stock_picking.py:24
+#: code:addons/slack_stock/models/stock_picking.py:68
+#: code:addonsOdooNodrizaTech/slack/12.0/slack_stock/models/stock_picking.py:24
+#: code:addonsOdooNodrizaTech/slack/12.0/slack_stock/models/stock_picking.py:68
+#, python-format
+msgid "View picking"
+msgstr ""
+
+#. module: slack_stock
+#: code:addons/slack_stock/models/stock_picking.py:20
+#: code:addons/slack_stock/models/stock_picking.py:64
+#: code:addonsOdooNodrizaTech/slack/12.0/slack_stock/models/stock_picking.py:20
+#: code:addonsOdooNodrizaTech/slack/12.0/slack_stock/models/stock_picking.py:64
+#, python-format
+msgid "View picking %s/web?#id=%s&view_type=form&model=stock.picking"
+msgstr ""
+
