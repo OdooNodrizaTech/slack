@@ -62,7 +62,7 @@ class ShippingExpedition(models.Model):
         if self.user_id \
                 and self.user_id.slack_member_id \
                 and self.user_id.slack_shipping_expedition_incidence:
-            channel = self.user_id.slack_member_id                         
+            channel = self.user_id.slack_member_id
 
         vals = {
             'attachments': attachments,

@@ -6,8 +6,9 @@ from odoo import api, models, _
 class MailMessage(models.Model):
     _inherit = 'mail.message'
 
-    @api.one
+    @api.multi
     def generate_auto_starred_slack(self, user_id):
+        self.ensure_one()
         if user_id and user_id.slack_member_id and user_id.slack_mail_message:
             web_base_url = self.env[
                 'ir.config_parameter'
@@ -46,8 +47,9 @@ class MailMessage(models.Model):
                 }
                 self.env['slack.message'].sudo().create(vals)
 
-    @api.one
+    @api.multi
     def generate_notice_message_without_auto_starred_user_slack(self):
+        self.ensure_one()
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         url_item = '%s/web?#id=%s&view_type=form&model=%s' % (
             web_base_url,

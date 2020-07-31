@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <field name="notification_type" position="before">	    	
                 <field name="slack_shipping_expedition_incidence"/>
-	       </field>                       
+            </field>
         </field>
     </record>
 

@@ -22,8 +22,9 @@ class AccountMoveLine(models.Model):
         # return
         return return_object
 
-    @api.one
+    @api.multi
     def action_send_cesce_sale_error_message_slack(self, vals):
+        self.ensure_one()
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         url_item = '%s/web?#id=%s&view_type=form&model=account.move.line' % (
             web_base_url,

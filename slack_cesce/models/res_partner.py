@@ -37,8 +37,9 @@ class ResPartner(models.Model):
         # return
         return return_object
 
-    @api.one
+    @api.multi
     def action_send_cesce_risk_classification_error_message_slack(self):
+        self.ensure_one()
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         url_item = '%s/web?#id=%s&view_type=form&model=res.partner' % (
             web_base_url,
@@ -84,8 +85,9 @@ class ResPartner(models.Model):
         }
         self.env['slack.message'].sudo().create(vals)
 
-    @api.one
+    @api.multi
     def action_send_cesce_risk_classification_message_slack(self):
+        self.ensure_one()
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         url_item = '%s/web?#id=%s&view_type=form&model=res.partner' % (
             web_base_url,
@@ -131,8 +133,9 @@ class ResPartner(models.Model):
         }
         self.env['slack.message'].sudo().create(vals)
 
-    @api.one
+    @api.multi
     def action_send_cesce_risk_classification_update_message_slack(self):
+        self.ensure_one()
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         url_item = '%s/web?#id=%s&view_type=form&model=res.partner' % (
             web_base_url,

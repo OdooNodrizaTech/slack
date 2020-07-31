@@ -110,7 +110,7 @@ class SaleOrder(models.Model):
 
     @api.multi
     def action_confirm_create_message_slack(self):
-        self.ensure_one
+        self.ensure_one()
         vals = {
             'attachments': self.action_confirm_create_message_slack_pre()[0],
             'model': 'sale.order',
