@@ -1,11 +1,11 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, models, tools, _
+from odoo import api, models, _
 
 
 class MailMail(models.Model):
     _inherit = 'mail.mail'
-    
+
     @api.multi
     def _postprocess_sent_message(self,
                                   success_pids,
@@ -21,11 +21,11 @@ class MailMail(models.Model):
             for item in self:
                 if item.state == 'exception':
                     attachments = [
-                        {                    
+                        {
                             "title": _('An error occurred while sending the email'),
-                            "text": item.subject,                         
+                            "text": item.subject,
                             "color": "#ff0000",
-                            "fields": [                    
+                            "fields": [
                                 {
                                     "title": _("Failure _reason"),
                                     "value": item.failure_reason,
@@ -40,15 +40,15 @@ class MailMail(models.Model):
                                     "title": item.model,
                                     "value": item.res_id,
                                     'short': True,
-                                },                        
-                            ],                                                                                    
+                                },
+                            ],
                         }
                     ]
                     vals = {
                         'attachments': attachments,
                         'model': self._inherit,
-                        'res_id': item.id,                                                         
-                    }                        
+                        'res_id': item.id,
+                    }
                     self.env['slack.message'].sudo().create(vals)
         # return
         return res

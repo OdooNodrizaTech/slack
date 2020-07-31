@@ -1,7 +1,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import logging
-from odoo import api, models, fields, tools
+from odoo import api, models, tools
 _logger = logging.getLogger(__name__)
 
 try:
@@ -13,9 +13,9 @@ except (ImportError, IOError) as err:
 class SlackMessage(models.Model):
     _name = 'slack.message'
     _description = 'Slack Message'
-    
+
     @api.model
-    def create(self, values):        
+    def create(self, values):
         channel = self.env['ir.config_parameter'].sudo().get_param('slack_log_channel')
         api_token = tools.config.get('slack_bot_user_oauth_access_token')
         if api_token is not None:
@@ -27,13 +27,13 @@ class SlackMessage(models.Model):
             attachments = []
             # msg
             if 'msg' in values:
-                msg = values['msg']        
+                msg = values['msg']
             # attachments
             if 'attachments' in values:
                 attachments = values['attachments']
             # channel
             if 'channel' in values:
-                channel = values['channel']                    
+                channel = values['channel']
             # SlackClient
             try:
                 sc = slack.WebClient(token=api_token)

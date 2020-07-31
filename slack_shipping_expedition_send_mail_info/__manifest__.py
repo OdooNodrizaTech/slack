@@ -11,7 +11,7 @@
     "depends": [
         "base",
         "shipping_expedition",  # https://github.com/OdooNodrizaTech/stock
-        "shipping_expedition_send_mail_info",  # https://github.com/OdooNodrizaTech/stock
+        "shipping_expedition_send_mail_info",  # github.com/OdooNodrizaTech/stock
         "slack"
     ],
     "data": [],

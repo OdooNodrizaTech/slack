@@ -53,5 +53,5 @@ class AccountMoveLine(models.Model):
             'channel': self.env['ir.config_parameter'].sudo().get_param(
                 'slack_cesce_channel'
             ),
-        }                        
+        }
         self.env['slack.message'].sudo().create(slack_message_vals)

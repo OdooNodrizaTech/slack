@@ -1,15 +1,15 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, models, fields, _
+from odoo import api, models, _
 
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    @api.one    
+    @api.multi
     def action_auto_create_message_slack(self):
+        self.ensure_one()
         res = super(AccountInvoice, self).action_auto_create_message_slack()
-        
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         url_item = '%s/web?#id=%s&view_type=form&model=account.invoice' % (
             web_base_url,
@@ -28,7 +28,7 @@ class AccountInvoice(models.Model):
                         "url": url_item
                     }
                 ],
-                "fields": [                    
+                "fields": [
                     {
                         "title": _("Customer"),
                         "value": self.partner_id.name,
@@ -45,7 +45,6 @@ class AccountInvoice(models.Model):
                 ],
             }
         ]
-        
         vals = {
             'attachments': attachments,
             'model': 'account.invoice',
@@ -53,7 +52,6 @@ class AccountInvoice(models.Model):
             'channel': self.env['ir.config_parameter'].sudo().get_param(
                 'slack_log_contabilidad_channel'
             ),
-        }                        
+        }
         self.env['slack.message'].sudo().create(vals)
-        
         return res
