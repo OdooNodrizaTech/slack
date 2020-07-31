@@ -20,6 +20,7 @@
     "data": [
         "data/slack_data.xml",
         "views/res_users_view.xml",
+        "security/ir.model.access.csv",
     ],
     "installable": True
 }
