@@ -10,6 +10,8 @@
     "license": "AGPL-3",
     "depends": [
         "base",
+        "crm",
+        "sale",
         "sale_orders_generate_invoice",  # https://github.com/OdooNodrizaTech/sale
         "slack"
     ],
