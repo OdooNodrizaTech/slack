@@ -7,8 +7,16 @@ class MailMail(models.Model):
     _inherit = 'mail.mail'
     
     @api.multi
-    def _postprocess_sent_message(self, success_pids, failure_reason=False, failure_type=None):
-        res = super(MailMail, self)._postprocess_sent_message(success_pids, failure_reason, failure_type)
+    def _postprocess_sent_message(self,
+                                  success_pids,
+                                  failure_reason=False,
+                                  failure_type=None
+                                  ):
+        res = super(MailMail, self)._postprocess_sent_message(
+            success_pids,
+            failure_reason,
+            failure_type
+        )
         if failure_reason:
             for item in self:
                 if item.state == 'exception':
@@ -43,4 +51,4 @@ class MailMail(models.Model):
                     }                        
                     self.env['slack.message'].sudo().create(vals)
         # return
-        return res    
+        return res

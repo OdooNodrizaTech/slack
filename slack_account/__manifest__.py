@@ -16,5 +16,5 @@
     "data": [
         "data/slack_account_data.xml",
     ],
-    "installable": True,
+    "installable": True
 }

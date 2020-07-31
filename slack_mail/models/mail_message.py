@@ -10,7 +10,10 @@ class MailMessage(models.Model):
     def generate_auto_starred_slack(self, user_id):
         if user_id and user_id.slack_member_id and user_id.slack_mail_message:
             web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-            
+            url_item = '%s/web?#id=%s&view_type=form&model=%s' % (
+                self.res_id,
+                self.model
+            )
             if self.record_name:
                 attachments = [
                     {                    
@@ -18,21 +21,15 @@ class MailMessage(models.Model):
                         "text": str(self.record_name.encode('utf-8')),                        
                         "color": "#36a64f",                                            
                         "footer": str(self.author_id.name.encode('utf-8')),
-                        "fallback": _("View message %s  %s/web?#id=%s&view_type=form&model=%s") % (
+                        "fallback": _("View message %s  %s") % (
                             self.record_name.encode('utf-8'),
-                            web_base_url,
-                            self.res_id,
-                            self.model
+                            url_item
                         ),
                         "actions": [
                             {
                                 "type": "button",
                                 "text": _("View message %s") % self.record_name.encode('utf-8'),
-                                "url": "%s/web?#id=%s&view_type=form&model=%s" % (
-                                    web_base_url,
-                                    self.res_id,
-                                    self.model
-                                )
+                                "url": url_item
                             }
                         ]                    
                     }
@@ -48,19 +45,26 @@ class MailMessage(models.Model):
     @api.one
     def generate_notice_message_without_auto_starred_user_slack(self):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        url_item = '%s/web?#id=%s&view_type=form&model=%s' % (
+            self.res_id,
+            self.model
+        )
         if self.record_name:
             attachments = [
                 {                    
                     "title": 'Nuevo mensaje (Sin aviso a ningun comercial)',
                     "text": str(self.record_name.encode('utf-8')),                       
                     "color": "#ff0000",                                            
-                    "footer": str(self.author_id.name), 
-                    "fallback": "Ver mensaje "+str(self.record_name.encode('utf-8'))+' '+str(web_base_url)+"/web?#id="+str(self.res_id)+"&view_type=form&model="+str(self.model),                                    
+                    "footer": str(self.author_id.name),
+                    "fallback": _('View message %s %s') % (
+                        self.record_name.encode('utf-8'),
+                        url_item
+                    ),
                     "actions": [
                         {
                             "type": "button",
-                            "text": "Ver mensaje "+str(self.record_name.encode('utf-8')),
-                            "url": str(web_base_url)+"/web?#id="+str(self.res_id)+"&view_type=form&model="+str(self.model)
+                            "text": _('View message %s') % self.record_name.encode('utf-8'),
+                            "url": url_item
                         }
                     ]                    
                 }

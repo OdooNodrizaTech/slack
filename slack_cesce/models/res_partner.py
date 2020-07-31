@@ -20,16 +20,18 @@ class ResPartner(models.Model):
             cesce_risk_state = self.cesce_risk_state
             # 1er classification_error
             first_classification_error = False
-            if cesce_risk_state == 'classification_error' and cesce_risk_state_old != cesce_risk_state:
+            if cesce_risk_state == 'classification_error' \
+                    and cesce_risk_state_old != cesce_risk_state:
                 first_classification_error = True
                 self.action_send_cesce_risk_classification_error_message_slack()
             # 1er classification_ok
             first_classification_ok = False
-            if cesce_risk_state == 'classification_ok' and cesce_risk_state_old != cesce_risk_state:
+            if cesce_risk_state == 'classification_ok' \
+                    and cesce_risk_state_old != cesce_risk_state:
                 first_classification_ok = True
                 self.action_send_cesce_risk_classification_message_slack()
             # credit_limit change
-            if first_classification_ok == False and first_classification_error == False:
+            if not first_classification_ok and not first_classification_error:
                 if credit_limit_old != credit_limit:
                     self.action_send_cesce_risk_classification_update_message_slack()
         # return
@@ -38,22 +40,24 @@ class ResPartner(models.Model):
     @api.one    
     def action_send_cesce_risk_classification_error_message_slack(self):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-                                                        
+        url_item = '%s/web?#id=%s&view_type=form&model=res.partner' % (
+            web_base_url,
+            self.id
+        )
         attachments = [
             {                    
                 "title": _('Cesce Risk Error'),
                 "text": self.cesce_error,                        
                 "color": "#ff0000",
-                "fallback": _("View contact %s %s/web?#id=%s&view_type=form&model=res.partner") % (
+                "fallback": _("View contact %s %s") % (
                     self.name,
-                    web_base_url,
-                    self.id
+                    url_item
                 ),
                 "actions": [
                     {
                         "type": "button",
                         "text": _("View contact %s") % self.name,
-                        "url": "%s/web?#id=%s&view_type=form&model=res.partner" % (web_base_url, self.id)
+                        "url": url_item
                     }
                 ],
                 "fields": [                    
@@ -74,29 +78,33 @@ class ResPartner(models.Model):
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_cesce_channel'),                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param(
+                'slack_cesce_channel'
+            ),
         }                        
         self.env['slack.message'].sudo().create(vals)
         
     @api.one    
     def action_send_cesce_risk_classification_message_slack(self):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-                                                        
+        url_item = '%s/web?#id=%s&view_type=form&model=res.partner' % (
+            web_base_url,
+            self.id
+        )
         attachments = [
             {                    
                 "title": _('Cesce Riesgo Allowed'),
                 "text": self.name,                        
                 "color": "#36a64f",                                             
-                "fallback": _("View contact %s %s/web?#id=%s&view_type=form&model=res.partner") % (
+                "fallback": _("View contact %s %s") % (
                     self.name,
-                    web_base_url,
-                    self.id
+                    url_item
                 ),
                 "actions": [
                     {
                         "type": "button",
                         "text": _("View contact %s") % self.name,
-                        "url": "%s/web?#id=%s&view_type=form&model=res.partner" % (web_base_url, self.id)
+                        "url": url_item
                     }
                 ],
                 "fields": [                    
@@ -117,13 +125,19 @@ class ResPartner(models.Model):
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_cesce_channel'),                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param(
+                'slack_cesce_channel'
+            ),
         }                        
         self.env['slack.message'].sudo().create(vals)
         
     @api.one    
     def action_send_cesce_risk_classification_update_message_slack(self):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        url_item = '%s/web?#id=%s&view_type=form&model=res.partner' % (
+            web_base_url,
+            self.id
+        )
         # define
         fecha_efecto = ''
         fecha_anulacion = ''
@@ -145,16 +159,15 @@ class ResPartner(models.Model):
                 "title": _('Cesce Risk update'),
                 "text": self.name,                        
                 "color": "#36a64f",                                             
-                "fallback": _("View contact %s %s/web?#id=%s&view_type=form&model=res.partner") % (
+                "fallback": _("View contact %s %s") % (
                     self.name,
-                    web_base_url,
-                    self.id
+                    url_item
                 ),
                 "actions": [
                     {
                         "type": "button",
                         "text": _("View contact %s") % self.name,
-                        "url": "%s/web?#id=%s&view_type=form&model=res.partner" % (web_base_url, self.id)
+                        "url": url_item
                     }
                 ],
                 "fields": [                    
@@ -185,6 +198,8 @@ class ResPartner(models.Model):
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_cesce_channel'),                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param(
+                'slack_cesce_channel'
+            ),
         }                        
         self.env['slack.message'].sudo().create(vals)

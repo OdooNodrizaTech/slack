@@ -18,22 +18,24 @@ class AccountInvoice(models.Model):
     @api.one    
     def action_send_account_invoice_create_message_slack(self):        
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-                                                        
+        url_item = '%s/web?#id=%s&view_type=form&model=account.invoice' % (
+            web_base_url,
+            self.id
+        )
         attachments = [
             {                    
                 "title": _('Invoice has been created automatically'),
                 "text": self.number,                        
                 "color": "#36a64f",
-                "fallback": "View invoice %s %s/web?#id=%s&view_type=form&model=account.invoice" % (
+                "fallback": "View invoice %s %s" % (
                     self.number,
-                    web_base_url,
-                    self.id
+                    url_item
                 ),
                 "actions": [
                     {
                         "type": "button",
                         "text": _("View invoice %s") % self.number,
-                        "url": "%s/web?#id=%s&view_type=form&model=account.invoice" % (web_base_url, self.id)
+                        "url": url_item
                     }
                 ],
                 "fields": [                    
@@ -54,6 +56,8 @@ class AccountInvoice(models.Model):
             'attachments': attachments,
             'model': 'account.invoice',
             'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_contabilidad_channel'),                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param(
+                'slack_log_contabilidad_channel'
+            ),
         }                        
         self.env['slack.message'].sudo().create(vals)

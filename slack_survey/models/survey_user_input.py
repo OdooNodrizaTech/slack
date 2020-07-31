@@ -35,6 +35,8 @@ class SurveyUserinput(models.Model):
                 'attachments': attachments,
                 'model': 'survey.user_input',
                 'res_id': self.id,
-                'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_calidad_channel'),                                                         
+                'channel': self.env['ir.config_parameter'].sudo().get_param(
+                    'slack_log_calidad_channel'
+                ),
             }                        
             self.env['slack.message'].sudo().create(vals)

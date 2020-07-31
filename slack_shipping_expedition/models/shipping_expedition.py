@@ -24,18 +24,21 @@ class ShippingExpedition(models.Model):
     @api.one    
     def action_incidence_expedition_message_slack(self):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-                        
+        url_item = '%s/web?#id=%s&view_type=form&model=shipping.expedition' % (
+            web_base_url,
+            self.id
+        )
         attachments = [
             {                    
                 "title": _('Incidence in expedition'),
                 "text": self.observations,                        
                 "color": "#ff0000",
-                "fallback": "View expedition %s/web?#id=%s&view_type=form&model=shipping.expedition" % (web_base_url, self.id),
+                "fallback": _("View expedition %s") % url_item,
                 "actions": [
                     {
                         "type": "button",
                         "text": _("View expedition"),
-                        "url": "%s/web?#id=%s&view_type=form&model=shipping.expedition" % (web_base_url, self.id)
+                        "url": url_item
                     }
                 ],
                 "fields": [
@@ -56,7 +59,8 @@ class ShippingExpedition(models.Model):
         #channel
         channel = self.env['ir.config_parameter'].sudo().get_param('slack_log_almacen_channel')
         
-        if self.user_id and self.user_id.slack_member_id and self.user_id.slack_shipping_expedition_incidence:
+        if self.user_id and self.user_id.slack_member_id \
+                and self.user_id.slack_shipping_expedition_incidence:
             channel = self.user_id.slack_member_id                         
         
         vals = {
@@ -71,28 +75,31 @@ class ShippingExpedition(models.Model):
     @api.one        
     def action_error_update_state_expedition(self, res):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-            
+        url_item = '%s/web?#id=%s&view_type=form&model=shipping.expedition' % (
+            web_base_url,
+            self.id
+        )
         attachments = [
             {                    
                 "title": 'Error al actualizar el estado de la expedicion',
                 "text": res['error'],                         
                 "color": "#ff0000",                                             
-                "fallback": "Ver expedicion "+str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=shipping.expedition",                                    
+                "fallback": _("Ver expedicion %s") % url_item,
                 "actions": [
                     {
                         "type": "button",
-                        "text": "Ver expedicion",
-                        "url": str(web_base_url)+"/web?#id="+str(self.id)+"&view_type=form&model=shipping.expedition"
+                        "text": _("Ver expedicion"),
+                        "url": url_item
                     }
                 ],
                 "fields": [
                     {
-                        "title": "Expedicion",
+                        "title": _("Expedicion"),
                         "value": self.code,
                         'short': True,
                     },                    
                     {
-                        "title": "Transportista",
+                        "title": _("Transportista"),
                         "value": self.carrier_type.title(),
                         'short': True,
                     },                    
@@ -103,6 +110,8 @@ class ShippingExpedition(models.Model):
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_almacen_channel'),                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param(
+                'slack_log_almacen_channel'
+            ),
         }                        
         self.env['slack.message'].sudo().create(vals)

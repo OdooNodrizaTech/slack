@@ -11,8 +11,12 @@ class SlackMessage(models.Model):
     
     @api.model
     def cron_slack_sqs_dead_letter(self):
-        slack_log_sqs_dead_letter = self.env['ir.config_parameter'].sudo().get_param('slack_log_sqs_dead_letter')
-        ses_sqs_urls = self.env['ir.config_parameter'].sudo().get_param('sqs_dead_letter_urls').split(',')
+        slack_log_sqs_dead_letter = self.env[
+            'ir.config_parameter'
+        ].sudo().get_param('slack_log_sqs_dead_letter')
+        ses_sqs_urls = self.env[
+            'ir.config_parameter'
+        ].sudo().get_param('sqs_dead_letter_urls').split(',')
         AWS_ACCESS_KEY_ID = tools.config.get('aws_access_key_id')        
         AWS_SECRET_ACCESS_KEY = tools.config.get('aws_secret_key_id')
         AWS_SMS_REGION_NAME = tools.config.get('aws_region_name')

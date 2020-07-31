@@ -17,18 +17,21 @@ class ShippingExpedition(models.Model):
     @api.one    
     def action_send_mail_info_expedition_message_slack(self):
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-            
+        url_item = '%s/web?#id=%s&view_type=form&model=shipping.expedition' % (
+            web_base_url,
+            self.id
+        )
         attachments = [
             {                    
                 "title": _('The expedition info has been sent by email'),
                 "text": self.code,                        
                 "color": "#36a64f",
-                "fallback": "View expedition %s/web?#id=%s&view_type=form&model=shipping.expedition" & (web_base_url, self.id),
+                "fallback": _("View expedition %s") % url_item,
                 "actions": [
                     {
                         "type": "button",
                         "text": _("View expedition"),
-                        "url": "%s/web?#id=%s&view_type=form&model=shipping.expedition" % (web_base_url, self.id)
+                        "url": url_item
                     }
                 ],
                 "fields": [
@@ -49,6 +52,8 @@ class ShippingExpedition(models.Model):
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_almacen_channel'),                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param(
+                'slack_log_almacen_channel'
+            ),
         }                        
         self.env['slack.message'].sudo().create(vals)

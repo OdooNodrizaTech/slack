@@ -33,6 +33,8 @@ class PaymentTransaction(models.Model):
             'model': self._inherit,
             'res_id': self.id,
             'as_user': True,
-            'channel': str(self.env['ir.config_parameter'].sudo().get_param('slack_log_channel'))                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param(
+                'slack_log_channel'
+            )
         }                        
         self.env['slack.message'].sudo().create(vals)

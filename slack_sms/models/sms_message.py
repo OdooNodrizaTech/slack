@@ -8,7 +8,7 @@ class SmsMessage(models.Model):
 
     @api.one    
     def action_send_error_sms_message_message_slack(self, res):
-        res_return = super(SmsMessage, self).action_send_error_sms_message_message_slack(res)
+        res = super(SmsMessage, self).action_send_error_sms_message_message_slack(res)
             
         attachments = [
             {                    
@@ -21,8 +21,10 @@ class SmsMessage(models.Model):
             'attachments': attachments,
             'model': self._inherit,
             'res_id': self.id,
-            'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_sms_channel'),                                                         
+            'channel': self.env['ir.config_parameter'].sudo().get_param(
+                'slack_log_sms_channel'
+            ),
         }                        
         self.env['slack.message'].sudo().create(vals)
         # res_return
-        return res_return
+        return res
