@@ -5,70 +5,84 @@ from odoo import api, models, _
 
 class MailMessage(models.Model):
     _inherit = 'mail.message'
-    
-    @api.one
+
+    @api.multi
     def generate_auto_starred_slack(self, user_id):
+        self.ensure_one()
         if user_id and user_id.slack_member_id and user_id.slack_mail_message:
-            web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-            
+            web_base_url = self.env[
+                'ir.config_parameter'
+            ].sudo().get_param('web.base.url')
+            url_item = '%s/web?#id=%s&view_type=form&model=%s' % (
+                web_base_url,
+                self.res_id,
+                self.model
+            )
             if self.record_name:
                 attachments = [
-                    {                    
+                    {
                         "title": _('New message'),
-                        "text": str(self.record_name.encode('utf-8')),                        
-                        "color": "#36a64f",                                            
+                        "text": str(self.record_name.encode('utf-8')),
+                        "color": "#36a64f",
                         "footer": str(self.author_id.name.encode('utf-8')),
-                        "fallback": _("View message %s  %s/web?#id=%s&view_type=form&model=%s") % (
+                        "fallback": _("View message %s  %s") % (
                             self.record_name.encode('utf-8'),
-                            web_base_url,
-                            self.res_id,
-                            self.model
+                            url_item
                         ),
                         "actions": [
                             {
                                 "type": "button",
-                                "text": _("View message %s") % self.record_name.encode('utf-8'),
-                                "url": "%s/web?#id=%s&view_type=form&model=%s" % (
-                                    web_base_url,
-                                    self.res_id,
-                                    self.model
-                                )
+                                "text": _("View message %s")
+                                        % self.record_name.encode('utf-8'),
+                                "url": url_item
                             }
-                        ]                    
+                        ]
                     }
                 ]
                 vals = {
                     'attachments': attachments,
                     'model': self._inherit,
                     'res_id': self.id,
-                    'channel': user_id.slack_member_id                                                          
-                }                        
+                    'channel': user_id.slack_member_id
+                }
                 self.env['slack.message'].sudo().create(vals)
-        
-    @api.one
+
+    @api.multi
     def generate_notice_message_without_auto_starred_user_slack(self):
+        self.ensure_one()
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        url_item = '%s/web?#id=%s&view_type=form&model=%s' % (
+            web_base_url,
+            self.res_id,
+            self.model
+        )
         if self.record_name:
             attachments = [
-                {                    
+                {
                     "title": 'Nuevo mensaje (Sin aviso a ningun comercial)',
-                    "text": str(self.record_name.encode('utf-8')),                       
-                    "color": "#ff0000",                                            
-                    "footer": str(self.author_id.name), 
-                    "fallback": "Ver mensaje "+str(self.record_name.encode('utf-8'))+' '+str(web_base_url)+"/web?#id="+str(self.res_id)+"&view_type=form&model="+str(self.model),                                    
+                    "text": str(self.record_name.encode('utf-8')),
+                    "color": "#ff0000",
+                    "footer": str(self.author_id.name),
+                    "fallback": _('View message %s %s') % (
+                        self.record_name.encode('utf-8'),
+                        url_item
+                    ),
                     "actions": [
                         {
                             "type": "button",
-                            "text": "Ver mensaje "+str(self.record_name.encode('utf-8')),
-                            "url": str(web_base_url)+"/web?#id="+str(self.res_id)+"&view_type=form&model="+str(self.model)
+                            "text": _('View message %s')
+                                    % self.record_name.encode('utf-8'),
+                            "url": url_item
                         }
-                    ]                    
+                    ]
                 }
             ]
             vals = {
                 'attachments': attachments,
                 'model': self._inherit,
                 'res_id': self.id,
-                'channel': self.env['ir.config_parameter'].sudo().get_param('slack_log_channel'),                                                         
-            }                        
+                'channel': self.env['ir.config_parameter'].sudo().get_param(
+                    'slack_log_channel'
+                ),
+            }
             self.env['slack.message'].sudo().create(vals)
