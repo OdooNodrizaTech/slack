@@ -14,7 +14,7 @@ class ShippingExpedition(models.Model):
             item.action_send_mail_info_expedition_message_slack()
         # return
         return return_item
-        
+
     @api.multi
     def action_send_mail_info_expedition_message_slack(self):
         self.ensure_one()
@@ -41,7 +41,7 @@ class ShippingExpedition(models.Model):
                         "title": _("Picking"),
                         "value": self.picking_id.name,
                         'short': True,
-                    },                    
+                    },
                     {
                         "title": _("Carrier"),
                         "value": self.carrier_type.title(),

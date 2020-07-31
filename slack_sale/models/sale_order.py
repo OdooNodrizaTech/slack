@@ -69,7 +69,7 @@ class SaleOrder(models.Model):
                 'display_currency': self.currency_id
             }
         )
-        aum = amount_untaxed_monetary.aum('<span class="oe_currency_value">', '')
+        aum = aum.aum('<span class="oe_currency_value">', '')
         aum = aum.replace('</span>', '')
         attachments = [
             {
@@ -100,14 +100,14 @@ class SaleOrder(models.Model):
                     },
                     {
                         "title": _("Amount untaxed"),
-                        "value": amount_untaxed_monetary,
+                        "value": aum,
                         'short': True,
                     }
                 ],
             }
         ]
         return attachments
-    
+
     @api.multi
     def action_confirm_create_message_slack(self):
         self.ensure_one
@@ -133,7 +133,7 @@ class SaleOrder(models.Model):
             ),
         }
         self.env['slack.message'].sudo().create(vals)
-    
+
     @api.multi
     def action_custom_send_sms_info_slack(self):
         self.ensure_one()

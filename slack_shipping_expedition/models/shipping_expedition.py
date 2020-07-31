@@ -20,7 +20,7 @@ class ShippingExpedition(models.Model):
                 self.action_incidence_expedition_message_slack()
         # return
         return return_write
-        
+
     @api.multi
     def action_incidence_expedition_message_slack(self):
         self.ensure_one()
@@ -47,7 +47,7 @@ class ShippingExpedition(models.Model):
                         "title": _("Expedition"),
                         "value": self.code,
                         'short': True,
-                    },                    
+                    },
                     {
                         "title": _("Carrier"),
                         "value": self.carrier_type.title(),
@@ -56,8 +56,11 @@ class ShippingExpedition(models.Model):
                 ],
             }
         ]
-        channel = self.env['ir.config_parameter'].sudo().get_param('slack_log_almacen_channel')
-        if self.user_id and self.user_id.slack_member_id \
+        channel = self.env['ir.config_parameter'].sudo().get_param(
+            'slack_log_almacen_channel'
+        )
+        if self.user_id \
+                and self.user_id.slack_member_id \
                 and self.user_id.slack_shipping_expedition_incidence:
             channel = self.user_id.slack_member_id                         
 
@@ -69,7 +72,7 @@ class ShippingExpedition(models.Model):
             'channel': channel
         }
         self.env['slack.message'].sudo().create(vals)
-    
+
     @api.multi
     def action_error_update_state_expedition(self, res):
         self.ensure_one()
@@ -96,7 +99,7 @@ class ShippingExpedition(models.Model):
                         "title": _("Expedicion"),
                         "value": self.code,
                         'short': True,
-                    },                    
+                    },
                     {
                         "title": _("Transportista"),
                         "value": self.carrier_type.title(),

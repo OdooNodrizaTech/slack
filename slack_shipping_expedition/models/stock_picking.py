@@ -32,12 +32,12 @@ class StockPicking(models.Model):
                         "title": _("Picking"),
                         "value": self.name,
                         'short': True,
-                    },                    
+                    },
                     {
                         "title": _("Carrier"),
                         "value": self.carrier_type.title(),
                         'short': True,
-                    },                    
+                    },
                 ],
             }
         ]

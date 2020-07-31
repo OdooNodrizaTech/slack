@@ -2,7 +2,6 @@
 
 from odoo import api, models, tools
 import boto3
-import json
 
 
 class SlackMessage(models.Model):

@@ -15,7 +15,7 @@ class AccountInvoice(models.Model):
             item.action_send_account_invoice_create_message_slack()
         # return
         return return_item
-    
+
     @api.multi
     def action_send_account_invoice_create_message_slack(self):
         self.ensure_one()
@@ -61,5 +61,5 @@ class AccountInvoice(models.Model):
             'channel': self.env['ir.config_parameter'].sudo().get_param(
                 'slack_log_contabilidad_channel'
             ),
-        }                        
+        }
         self.env['slack.message'].sudo().create(vals)

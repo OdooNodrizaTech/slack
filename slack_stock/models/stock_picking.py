@@ -9,8 +9,8 @@ class StockPicking(models.Model):
     @api.multi
     def action_error_create_shipping_expedition_message_slack(self, res):
         self.ensure_one()
-        res_return = \
-            super(StockPicking, self).action_error_create_shipping_expedition_message_slack(res)
+        res_return = super(StockPicking, self).\
+            action_error_create_shipping_expedition_message_slack(res)
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         url_item = '%s/web?#id=%s&view_type=form&model=stock.picking' % (
             web_base_url,
@@ -34,7 +34,7 @@ class StockPicking(models.Model):
                         "title": _("Picking"),
                         "value": self.name,
                         'short': True,
-                    },                    
+                    },
                     {
                         "title": _("Carrier"),
                         "value": self.carrier_type.title(),
@@ -50,18 +50,16 @@ class StockPicking(models.Model):
             'channel': self.env['ir.config_parameter'].sudo().get_param(
                 'slack_log_almacen_channel'
             ),
-        }                        
+        }
         self.env['slack.message'].sudo().create(vals)
-        
+
         return res_return
-    
+
     @api.multi
     def action_error_edit_shipping_expedition_message_slack(self, res):
         self.ensure_one()
-        res_return = \
-            super(StockPicking, self).action_error_edit_shipping_expedition_message_slack(
-                res
-            )
+        res_return = super(StockPicking, self).\
+            action_error_edit_shipping_expedition_message_slack(res)
         web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         url_item = '%s/web?#id=%s&view_type=form&model=stock.picking' % (
             web_base_url,
@@ -86,7 +84,7 @@ class StockPicking(models.Model):
                         "title": _("Picking"),
                         "value": self.name,
                         'short': True,
-                    },                    
+                    },
                     {
                         "title": _("Carrier"),
                         "value": self.carrier_type.title(),

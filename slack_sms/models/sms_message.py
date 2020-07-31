@@ -11,7 +11,7 @@ class SmsMessage(models.Model):
         self.ensure_one()
         res = super(SmsMessage, self).action_send_error_sms_message_message_slack(res)
         attachments = [
-            {                    
+            {
                 "title": _('Error sending the SMS'),
                 "text": res['error'],
                 "color": "#ff0000"

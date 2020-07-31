@@ -9,7 +9,9 @@ class MailMessage(models.Model):
     @api.one
     def generate_auto_starred_slack(self, user_id):
         if user_id and user_id.slack_member_id and user_id.slack_mail_message:
-            web_base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+            web_base_url = self.env[
+                'ir.config_parameter'
+            ].sudo().get_param('web.base.url')
             url_item = '%s/web?#id=%s&view_type=form&model=%s' % (
                 web_base_url,
                 self.res_id,
@@ -29,7 +31,8 @@ class MailMessage(models.Model):
                         "actions": [
                             {
                                 "type": "button",
-                                "text": _("View message %s") % self.record_name.encode('utf-8'),
+                                "text": _("View message %s")
+                                        % self.record_name.encode('utf-8'),
                                 "url": url_item
                             }
                         ]
