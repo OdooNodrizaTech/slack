@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/OdooNodrizaTech/slack.svg?branch=12.0)](https://travis-ci.org/OdooNodrizaTech/slack)
 [![Coverage Status](https://coveralls.io/repos/github/OdooNodrizaTech/slack/badge.svg?branch=12.0)](https://coveralls.io/github/OdooNodrizaTech/slack?branch=12.0)
+[![codecov](https://codecov.io/gh/OdooNodrizaTech/slack/branch/12.0/graph/badge.svg)](https://codecov.io/gh/OdooNodrizaTech/slack)
 
 slack
 =========
