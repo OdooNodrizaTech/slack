@@ -1,3 +1,4 @@
+[![Build Status](https://runbot.nodrizatech.com/runbot/badge/29/12.0.svg)](https://runbot.nodrizatech.com/runbot/repo/https-github-com-odoonodrizatech-slack-29)
 [![Build Status](https://travis-ci.org/OdooNodrizaTech/slack.svg?branch=12.0)](https://travis-ci.org/OdooNodrizaTech/slack)
 [![codecov](https://codecov.io/gh/OdooNodrizaTech/slack/branch/12.0/graph/badge.svg)](https://codecov.io/gh/OdooNodrizaTech/slack)
 
