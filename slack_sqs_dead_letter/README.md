@@ -4,17 +4,13 @@ Los nombres de las SQS deberán estar separados por ,
 Lo ideal es que no exista ningún mensaje en esos SQS porque sería un error en el proceso previa que ha provocado que acabe ahí
 
 ### odoo.conf
-```
-aws_access_key_id=xxxx
-aws_secret_key_id=xxxxx
-aws_region_name=eu-west-1
-```
+- aws_access_key_id=xxxx
+- aws_secret_key_id=xxxxx
+- aws_region_name=eu-west-1
 
 ## Parámetros de configuración
-```
-slack_log_sqs_dead_letter
-sqs_dead_letter_urls
-``` 
+- slack_log_sqs_dead_letter
+- sqs_dead_letter_urls
 
 ### Cron Slack SQS Dead Letter
 
