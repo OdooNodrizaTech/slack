@@ -14,7 +14,7 @@
     ],
     "external_dependencies": {
         "python": [
-            "slackclient"
+            "slack"
         ],
     },
     "data": [
