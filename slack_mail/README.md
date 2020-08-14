@@ -1,9 +1,7 @@
 Se optimiza lo relativo a mail tomando como base el addon Slack enviando notificaciones para acciones personalizadas.
 
 ## Parámetros de configuración
-```
-slack_oniad_log_ses_mail_tracking_channel
-```
+- slack_oniad_log_ses_mail_tracking_channel
 
 ## mail.mail (Email)
 
